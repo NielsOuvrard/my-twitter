@@ -1,0 +1,13 @@
+#!/bin/bash
+
+lftp -u ouvrard.niels,11235813 -e "rm -r *.php; bye" ftpperso.free.fr
+
+wget -m ftp://ouvrard.niels:11235813@ftpperso.free.fr
+
+/var/www/sdb/b/7/ouvrard.niels/include:.:/usr/php5/lib/php
+
+user = ouvrard.niels
+password = 11235813
+host = ftpperso.free.fr
+
+6bEBN*!YsorC4G&d
