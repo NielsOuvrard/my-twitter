@@ -25,10 +25,10 @@ jobs:
           
       - name: Add credentials to .htaccess file
         run: |
-          echo "SetEnv FTP_USER ${{ secrets.FTP_USERNAME }}" >> .htaccess
-          echo "SetEnv FTP_PASS ${{ secrets.FTP_PASSWORD }}" >> .htaccess
-          echo "SetEnv FTP_SERVER ${{ secrets.FTP_SERVER }}" >> .htaccess
-        
+          echo "SetEnv DB_USERNAME ${{ secrets.FTP_USERNAME }}" >> .htaccess
+          echo "SetEnv DB_PASSWORD ${{ secrets.FTP_PASSWORD }}" >> .htaccess
+          echo "SetEnv DB_SERVERNAME ${{ secrets.FTP_SERVER }}" >> .htaccess
+
       - name: Copy API and .htaccess files
         run: |
           cp -r ./api ./dist/
