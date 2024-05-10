@@ -16,12 +16,23 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: '14' # todo check if its the right version
+          node-version: '21.7.2'
 
       - name: Install dependencies and build
         run: |
           npm ci
           npm run build
+          
+      - name: Add credentials to .htaccess file
+        run: |
+          echo "SetEnv FTP_USER ${{ secrets.FTP_USERNAME }}" >> .htaccess
+          echo "SetEnv FTP_PASS ${{ secrets.FTP_PASSWORD }}" >> .htaccess
+          echo "SetEnv FTP_SERVER ${{ secrets.FTP_SERVER }}" >> .htaccess
+        
+      - name: Copy API and .htaccess files
+        run: |
+          cp -r ./api ./dist/
+          cp .htaccess ./dist/
 
       - name: Set up FTP deployment
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
@@ -29,5 +40,5 @@ jobs:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: './dist'
-          remote-dir: '.'
+          local-dir: './dist/'
+          remote-dir: './'
