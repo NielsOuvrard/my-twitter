@@ -1,6 +1,6 @@
 # Website Free
 
-Comple website hosted on a free server (for free).
+Complet website hosted on a free server (for free).
 
 ## [Website](http://ouvrard.niels.free.fr/)
 
@@ -89,8 +89,8 @@ Comple website hosted on a free server (for free).
 
 ## 🛠️ Tools
 
-[![Made with Vue](https://img.shields.io/badge/Made%20with-Vue-42b883.svg)](https://vuejs.org/)
-[![Made with PHP](https://img.shields.io/badge/Made%20with-PHP-777BB4.svg)](https://www.php.net/)
+[![Made with Vue 3](https://img.shields.io/badge/Made%20with-Vue-42b883.svg)](https://vuejs.org/)
+[![Made with PHP 5.6.34](https://img.shields.io/badge/Made%20with-PHP-777BB4.svg)](https://www.php.net/)
 [![Made with MySQL](https://img.shields.io/badge/Made%20with-MySQL-4479A1.svg)](https://www.mysql.com/)
 <!-- [![Documentation](https://img.shields.io/badge/Documentation-Yes-brightgreen.svg)](https://rclovis.github.io/R-Type-Documentation/) -->
 
