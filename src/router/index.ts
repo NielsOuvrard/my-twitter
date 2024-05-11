@@ -22,7 +22,7 @@ const routes: Array<RouteRecordRaw> = [
     children: [
       {
         path: '',
-        component: () => import('../views/userView.vue'),
+        component: () => import('../views/UserView.vue'),
       },
     ],
   },
@@ -36,7 +36,7 @@ const routes: Array<RouteRecordRaw> = [
     children: [
       {
         path: '',
-        component: () => import('../views/messageView.vue'),
+        component: () => import('../views/MessageView.vue'),
       },
     ],
   },

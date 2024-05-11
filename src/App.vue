@@ -1,8 +1,8 @@
 <template>
   <nav>
     <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-    <router-link to="/users">Users</router-link>
+    <router-link to="/about">About</router-link> |
+    <router-link to="/users">Users</router-link> |
     <router-link to="/messages">Messages</router-link>
   </nav>
   <!-- put a link to profile -->

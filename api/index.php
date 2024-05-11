@@ -1,5 +1,9 @@
 <?php
 
+header('Access-Control-Allow-Origin: *');
+header('Content-Type: application/json');
+header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');
+
 $servername = getenv('DB_SERVERNAME');
 $username = getenv('DB_USERNAME');
 $password = getenv('DB_PASSWORD');
@@ -53,6 +57,10 @@ switch($_SERVER['REQUEST_METHOD']) {
 function getUsers($conn) {
     $stmt = $conn->query("SELECT * FROM users");
     $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    // remove password field from the response
+    foreach($users as $key => $user) {
+        unset($users[$key]['password']);
+    }
     echo json_encode($users);
 }
 
@@ -62,6 +70,7 @@ function getUser($conn, $id) {
     $stmt->execute([$id]);
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
     if($user) {
+        unset($user['password']);
         echo json_encode($user);
     } else {
         http_response_code(404); // Not Found
