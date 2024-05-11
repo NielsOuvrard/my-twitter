@@ -1,5 +1,11 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
 import HomeView from '../views/HomeView.vue';
+import AboutView from '../views/AboutView.vue';
+import UserView from '../views/UserView.vue';
+import UsersView from '../views/UsersView.vue';
+import MessageView from '../views/MessageView.vue';
+import MessagesView from '../views/MessagesView.vue';
+import NotFoundView from '../views/NotFoundView.vue';
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -10,39 +16,39 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/about',
     name: 'about',
-    component: () => import('../views/AboutView.vue'),
+    component: AboutView,
   },
   {
     path: '/users',
     name: 'users',
-    component: () => import('../views/UsersView.vue'),
+    component: UsersView,
   },
   {
     path: '/user/:id',
     children: [
       {
         path: '',
-        component: () => import('../views/UserView.vue'),
+        component: UserView,
       },
     ],
   },
   {
     path: '/messages',
     name: 'messages',
-    component: () => import('../views/MessagesView.vue'),
+    component: MessagesView,
   },
   {
     path: '/message/:id',
     children: [
       {
         path: '',
-        component: () => import('../views/MessageView.vue'),
+        component: MessageView,
       },
     ],
   },
   {
     path: '/:catchAll(.*)',
-    component: () => import('../views/NotFoundView.vue'),
+    component: NotFoundView,
   },
 ];
 // put a link to profile in the user view
