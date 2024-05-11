@@ -32,7 +32,7 @@ jobs:
         run: |
           export DB_USERNAME=root
           export DB_PASSWORD=password
-          export DB_SERVERNAME=localhost
+          export DB_SERVERNAME=127.0.0.1
           php -S localhost:8000 -t backend/ &
 
       - name: Set up Python
@@ -48,7 +48,6 @@ jobs:
 
       - name: Run Python tests
         run: |
-          service mysql start
           source venv/bin/activate
           python3 ./tests/test.py
         env:
