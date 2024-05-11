@@ -1,3 +1,4 @@
+import sys
 import requests
 import json
 
@@ -52,7 +53,7 @@ class TestBackend():
             response = requests.delete(f"{self.url}/{endpoint}")
         else:
             print("Error: Invalid HTTP method.")
-            return
+            sys.exit(1)
 
         return response
     
@@ -65,14 +66,16 @@ class TestBackend():
             except json.JSONDecodeError:
                 print("Error: Response is not a valid JSON.")
                 print(response.text)
-                return
+                sys.exit(1)
             if response_data == expected:
                 print("Backend is working properly.")
             else:
                 print("Error: Backend is not returning the expected data.")
                 self.show_diff(expected, response_data)
+                sys.exit(1)
         else:
             print("Error: Backend is not reachable.")
+            sys.exit(1)
 
     def test_list_users(self):
         self.test("GET", "users", expected=json.loads(expected_list_users))
