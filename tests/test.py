@@ -38,12 +38,19 @@ def test_backend(url):
                 """)
     response = requests.get(url)
     if response.status_code == 200:
-        if json.loads(response.text) == expected:
+        try:
+            response_data = json.loads(response.text)
+        except json.JSONDecodeError:
+            print("Error: Response is not a valid JSON.")
+            print(response.text)
+            return
+        if response_data == expected:
             print("Backend is working properly.")
         else:
-            print("There seems to be an issue with the backend.")
+            print("Error: Backend is not returning the expected data.")
+            print(response.text)
     else:
-        print("There seems to be an issue with the backend.")
+        print("Error: Backend is not reachable.")
 
 # Replace with your backend URL
 test_backend("http://localhost:8000")
