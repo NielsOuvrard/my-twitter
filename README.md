@@ -46,8 +46,6 @@ Complet website hosted on a free server (for free).
 
 ### Architecture
 
-(for now it's only an `index.php` file)
-
 ```sh
 ./backend
 ├── Makefile
@@ -69,7 +67,25 @@ Complet website hosted on a free server (for free).
     └── response.php
 ```
 
-## 🛠️ Tools
+## Features to add
+
+### Frontend
+
+- [ ] Add JWT token
+- [ ] Add a login / register / logout page
+- [ ] Add a profile page
+- [ ] Add a chat page
+
+### Database
+
+- [ ] Add sql : is-admin bio profile picture location job ...
+
+### Backend
+
+- [ ] Add JWT token
+- [ ] Add controllers for Message, Relationship
+
+## Tools
 
 [![Made with Vue 3](https://img.shields.io/badge/Made%20with-Vue-42b883.svg)](https://vuejs.org/)
 [![Made with PHP 5.6.34](https://img.shields.io/badge/Made%20with-PHP-777BB4.svg)](https://www.php.net/)
