@@ -13,6 +13,9 @@ Complet website hosted on a free server (for free).
 ├── babel.config.js
 ├── package-lock.json
 ├── package.json
+├── tsconfig.json
+├── vue.config.js
+│
 ├── public
 │   ├── favicon.ico
 │   ├── img
@@ -20,68 +23,69 @@ Complet website hosted on a free server (for free).
 │   │       └── ...
 │   ├── index.html
 │   └── robots.txt
-├── src
-│   ├── App.vue
-│   ├── assets
-│   │   └── logo.png
-│   ├── components
-│   │   └── ...
-│   ├── main.ts
-│   ├── note.txt
-│   ├── registerServiceWorker.ts
-│   ├── router
-│   │   └── index.ts
-│   ├── shims-vue.d.ts
-│   ├── store
-│   │   └── index.ts
-│   └── views
-│       └── ...
-├── tsconfig.json
-└── vue.config.js
+│
+└── src
+    ├── App.vue
+    ├── assets
+    │   └── logo.png
+    ├── components
+    │   └── ...
+    ├── main.ts
+    ├── note.txt
+    ├── registerServiceWorker.ts
+    ├── router
+    │   └── index.ts
+    ├── shims-vue.d.ts
+    ├── store
+    │   └── index.ts
+    └── views
+        └── ...
 ```
 
 ## Backend
 
 ### Architecture
 
-(for now it's only an `index.php` file)
-
 ```sh
 ./backend
+├── Makefile
 ├── index.php
-├── app
-│   ├── controller
-│   │   ├── InteractionsController.php
-│   │   ├── MessagesController.php
-│   │   └── UsersController.php
-│   ├── model
-│   │   ├── Interaction.php
-│   │   ├── Message.php
-│   │   └── User.php
-│   └── view
-│       ├── interactions
-│       │   ├── create.php
-│       │   ├── edit.php
-│       │   ├── index.php
-│       │   └── show.php
-│       ├── messages
-│       │   ├── create.php
-│       │   ├── edit.php
-│       │   ├── index.php
-│       │   └── show.php
-│       └── users
-│           ├── create.php
-│           ├── edit.php
-│           ├── index.php
-│           └── show.php
-├── config
-│   └── database.php
-└── vendor
-    ├── .htaccess
-    └── composer.json
+├── run_local.sh
+│
+├── controllers
+│   ├── AuthController.php
+│   ├── UserController.php
+│   ├── MessageController.php
+│   └── RelationshipController.php
+│
+├── routes
+│   └── routes.php
+│
+└── utils
+    ├── db.php
+    ├── jwt.php
+    └── response.php
 ```
 
-## 🛠️ Tools
+## Features to add
+
+### Frontend
+
+- [ ] Add JWT token
+- [ ] Add a login / register / logout page
+- [ ] Add a profile page
+- [ ] Add a chat page
+
+### Database
+
+- [ ] Add sql : is-admin bio profile picture location job ...
+
+### Backend
+
+- [ ] Add JWT token
+- [ ] Add controllers for Message, Relationship
+
+## Tools
 
 [![Made with Vue 3](https://img.shields.io/badge/Made%20with-Vue-42b883.svg)](https://vuejs.org/)
 [![Made with PHP 5.6.34](https://img.shields.io/badge/Made%20with-PHP-777BB4.svg)](https://www.php.net/)
