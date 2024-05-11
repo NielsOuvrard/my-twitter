@@ -16,23 +16,25 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: '21.7.2'
+          node-version: "21.7.2"
 
       - name: Install dependencies and build
         run: |
+          cd frontend
           npm ci
           npm run build
-          
+
       - name: Add credentials to .htaccess file
         run: |
+          cd backend
           echo "SetEnv DB_USERNAME ${{ secrets.FTP_USERNAME }}" >> .htaccess
           echo "SetEnv DB_PASSWORD ${{ secrets.FTP_PASSWORD }}" >> .htaccess
           echo "SetEnv DB_SERVERNAME ${{ secrets.FTP_SERVER }}" >> .htaccess
 
-      - name: Copy API and .htaccess files
+      - name: Copy backend to dist folder
         run: |
-          cp -r ./api ./dist/
-          cp .htaccess ./dist/
+          mkdir -p ./frontend/dist/api
+          cp -r ./backend/. ./frontend/dist/api
 
       - name: Set up FTP deployment
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
@@ -40,5 +42,5 @@ jobs:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: './dist/'
-          remote-dir: './'
+          local-dir: "./frontend/dist/"
+          remote-dir: "./"
