@@ -1,16 +1,16 @@
 <script setup lang="ts">
-import axios from 'axios';
-import UserCard from '@/components/UserCard.vue';
-import { onMounted, ref } from 'vue';
-import { UserType } from '@/types/types';
-import { useRoute } from 'vue-router';
+import axios from "axios";
+import UserCard from "@/components/UserCard.vue";
+import { onMounted, ref } from "vue";
+import { UserType } from "@/types/types";
+import { useRoute } from "vue-router";
 
 const route = useRoute();
 const user = ref<UserType>({
   id: 0,
-  username: '',
-  email: '',
-  created_at: '',
+  username: "",
+  email: "",
+  created_at: "",
 });
 const is_loading = ref(true);
 
@@ -18,7 +18,7 @@ onMounted(async () => {
   const userId = route.params.id;
   try {
     const response = await axios.get(
-      `http://ouvrard.niels.free.fr/api/index.php?id=${userId}`,
+      `http://ouvrard.niels.free.fr/api/index.php?id=${userId}`
     );
     user.value = response.data as UserType;
     is_loading.value = false;
