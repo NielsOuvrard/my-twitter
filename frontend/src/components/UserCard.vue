@@ -1,9 +1,9 @@
 <script lang="ts">
-import { defineComponent } from "vue";
-import { UserType } from "@/types/types";
+import { defineComponent } from 'vue';
+import { UserType } from '@/types/types';
 
 export default defineComponent({
-  name: "UserCard",
+  name: 'UserCard',
   props: {
     user: {
       type: Object as () => UserType,

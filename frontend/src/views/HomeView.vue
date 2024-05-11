@@ -1,7 +1,4 @@
-<script setup lang="ts">
-// from vuestic-ui
-import VaButton from "vuestic-ui/css";
-</script>
+<script setup lang="ts"></script>
 
 <template>
   <div class="home">
