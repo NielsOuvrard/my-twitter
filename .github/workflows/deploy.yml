@@ -30,6 +30,7 @@ jobs:
           echo "SetEnv DB_USERNAME ${{ secrets.FTP_USERNAME }}" >> .htaccess
           echo "SetEnv DB_PASSWORD ${{ secrets.FTP_PASSWORD }}" >> .htaccess
           echo "SetEnv DB_SERVERNAME ${{ secrets.FTP_SERVER }}" >> .htaccess
+          echo "SetEnv JWT_SECRET_KEY ${{ secrets.JWT_SECRET_KEY }}" >> .htaccess
 
       - name: Copy backend to dist folder
         run: |
@@ -43,4 +44,3 @@ jobs:
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: "./frontend/dist/"
-          remote-dir: "./"
