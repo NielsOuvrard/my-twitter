@@ -47,7 +47,9 @@ jobs:
           pip install -r tests/requirements.txt
 
       - name: Run Python tests
-        run: python3 ./tests/test.py
+        run: |
+          source venv/bin/activate
+          python3 ./tests/test.py
         env:
           DB_HOST: 127.0.0.1
           DB_USER: root
