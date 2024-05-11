@@ -4,16 +4,6 @@ Complet website hosted on a free server (for free).
 
 ## [Website](http://ouvrard.niels.free.fr/)
 
-## Global Architecture
-
-```sh
-.
-├── README.md
-├── backend
-├── database
-└── frontend
-```
-
 ## Frontend
 
 ### Architecture
