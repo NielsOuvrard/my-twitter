@@ -20,8 +20,10 @@ yarn-error.log*
 *.njsproj
 *.sln
 *.sw?
-*.txt
+note.txt
 
 # Mac
 .DS_Store
+
 archive/*
+venv

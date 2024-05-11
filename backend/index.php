@@ -7,7 +7,7 @@ header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');
 $servername = getenv('DB_SERVERNAME');
 $username = getenv('DB_USERNAME');
 $password = getenv('DB_PASSWORD');
-$dbname = 'users';
+$dbname = 'db';
 $opt = [
     PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
     PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,

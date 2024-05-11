@@ -1,0 +1,57 @@
+name: Test
+
+on: [push]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mysql:5.7
+        env:
+          MYSQL_ROOT_PASSWORD: password
+        ports:
+          - 3306:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get install -y mysql-client
+
+      - name: Setup test database
+        run: |
+          mysql -h127.0.0.1 -uroot -ppassword -e 'CREATE DATABASE IF NOT EXISTS db;'
+          mysql -h127.0.0.1 -uroot -ppassword db < database/data.sql
+          mysql -h127.0.0.1 -uroot -ppassword db < database/test.sql
+
+      - name: Start PHP server
+        run: |
+          export DB_USERNAME=root
+          export DB_PASSWORD=password
+          export DB_SERVERNAME=127.0.0.1
+          php -S localhost:8000 -t backend/ &
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.x"
+
+      - name: Install Python dependencies
+        run: |
+          python3 -m venv venv
+          source venv/bin/activate
+          pip install -r tests/requirements.txt
+
+      - name: Run Python tests
+        run: |
+          source venv/bin/activate
+          python3 ./tests/test.py
+        env:
+          DB_HOST: 127.0.0.1
+          DB_USER: root
+          DB_PASSWORD: password
+          DB_NAME: test_db
