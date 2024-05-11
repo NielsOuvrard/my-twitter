@@ -16,6 +16,7 @@ function getUsers($conn) {
     // remove password field from the response
     foreach($users as $key => $user) {
         unset($users[$key]['password']);
+        unset($users[$key]['created_at']);
     }
     echo json_encode($users);
 }
@@ -27,6 +28,7 @@ function getUser($conn, $id) {
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
     if($user) {
         unset($user['password']);
+        unset($user['created_at']);
         echo json_encode($user);
     } else {
         http_response_code(404); // Not Found
