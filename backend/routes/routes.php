@@ -160,15 +160,7 @@ $routes = [
 
 
 // Get the current request URI
-$requestUri = $_SERVER['REQUEST_URI'];
-
-// Remove query string from the URI
-if (($pos = strpos($requestUri, '?')) !== false) {
-    $requestUri = substr($requestUri, $pos + 1);
-} else {
-    http_response_code(404);
-    echo json_encode(['error' => 'Route Not Found']);
-}
+$requestUri = $_SERVER['QUERY_STRING'];
 
 $is_authenticated = false;
 $is_admin = false;
