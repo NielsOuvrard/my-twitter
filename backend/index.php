@@ -8,6 +8,4 @@ const DS = DIRECTORY_SEPARATOR;
 
 $base_path = realpath(dirname(__FILE__)) . DS;
 
-require_once($base_path . 'utils' . DS . 'jwt.php');
-
-require_once('routes/routes.php');
+require_once('backend/routes/routes.php');
