@@ -9,8 +9,12 @@ class JWT
      * @param int $validity Durée de validité (en secondes)
      * @return string Token
      */
-    public function generate(array $header, array $payload, string $secret, int $validity = 86400): string
+    public function generate(array $header, array $payload, string $secret, $validity = null)
     {
+        if ($validity === null) {
+            $validity = 86400;
+        }
+
         if ($validity > 0) {
             $now = new DateTime();
             $expiration = $now->getTimestamp() + $validity;
@@ -47,7 +51,7 @@ class JWT
      * @param string $secret Clé secrète
      * @return bool Vérifié ou non
      */
-    public function check(string $token, string $secret): bool
+    public function check(string $token, string $secret)
     {
         // On récupère le header et le payload
         $header = $this->getHeader($token);
@@ -96,7 +100,7 @@ class JWT
      * @param string $token Token à vérifier
      * @return bool Vérifié ou non
      */
-    public function isExpired(string $token): bool
+    public function isExpired(string $token)
     {
         $payload = $this->getPayload($token);
 
@@ -110,7 +114,7 @@ class JWT
      * @param string $token Token à vérifier
      * @return bool Vérifié ou non
      */
-    public function isValid(string $token): bool
+    public function isValid(string $token)
     {
         return preg_match(
             '/^[a-zA-Z0-9\-\_\=]+\.[a-zA-Z0-9\-\_\=]+\.[a-zA-Z0-9\-\_\=]+$/',
