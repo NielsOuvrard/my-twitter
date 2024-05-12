@@ -84,6 +84,7 @@ Complet website hosted on a free server (for free).
 
 - [ ] Add JWT token
 - [ ] Add controllers for Message, Relationship
+- [ ] Fix server error
 
 ## Tools
 
