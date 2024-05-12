@@ -34,8 +34,8 @@ jobs:
 
       - name: Copy backend to dist folder
         run: |
-          mkdir -p ./frontend/dist/api
-          cp -r ./backend/. ./frontend/dist/api
+          mkdir -p ./frontend/dist/backend
+          cp -r ./backend/. ./frontend/dist/backend
 
       - name: Set up FTP deployment
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
