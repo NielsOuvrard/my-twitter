@@ -36,6 +36,8 @@ jobs:
         run: |
           mkdir -p ./frontend/dist/backend
           cp -r ./backend/. ./frontend/dist/backend
+          mv ./frontend/dist/backend/.htaccess ./frontend/dist
+          mv ./frontend/dist/backend/index.php ./frontend/dist
 
       - name: Set up FTP deployment
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5

@@ -11,12 +11,13 @@ function connectDB() {
         PDO::ATTR_EMULATE_PREPARES   => false,
     ];
     
-    $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password, $opt);
-
     try {
         $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password, $opt);
     } catch(PDOException $e) {
         die("Connection failed: " . $e->getMessage());
+    }
+    if (!$conn) {
+        die("Connection failed: " . mysqli_connect_error());
     }
     
     return $conn;
