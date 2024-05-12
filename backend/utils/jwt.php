@@ -9,7 +9,7 @@ class JWT
      * @param int $validity Validity duration (in seconds)
      * @return string Token
      */
-    public function generate($header, $payload, $secret, $validity = null)
+    public static function generate($header, $payload, $secret, $validity = null)
     {
         if ($validity === null) {
             $validity = 86400;
@@ -32,7 +32,7 @@ class JWT
         $base64Payload = str_replace(['+', '/', '='], ['-', '_', ''], $base64Payload);
 
         // Generating signature
-        $secret = base64_encode($secret);
+        // $secret = base64_encode($secret);
         $signature = hash_hmac('sha256', $base64Header . '.' . $base64Payload, $secret, true);
 
         $base64Signature = base64_encode($signature);
@@ -51,14 +51,14 @@ class JWT
      * @param string $secret Secret key
      * @return bool Verified or not
      */
-    public function check($token, $secret)
+    public static function check($token, $secret)
     {
         // Retrieving header and payload
-        $header = $this->getHeader($token);
-        $payload = $this->getPayload($token);
+        $header = JWT::getHeader($token);
+        $payload = JWT::getPayload($token);
 
         // Generating a verification token
-        $verifToken = $this->generate($header, $payload, $secret, 0);
+        $verifToken = JWT::generate($header, $payload, $secret, 0);
 
         return $token === $verifToken;
     }
@@ -68,7 +68,7 @@ class JWT
      * @param string $token Token
      * @return array Header
      */
-    public function getHeader($token)
+    public static function getHeader($token)
     {
         // Token breakdown
         $array = explode('.', $token);
@@ -84,7 +84,7 @@ class JWT
      * @param string $token Token
      * @return array Payload
      */
-    public function getPayload($token)
+    public static function getPayload($token)
     {
         // Token breakdown
         $array = explode('.', $token);
@@ -100,9 +100,9 @@ class JWT
      * @param string $token Token to verify
      * @return bool Verified or not
      */
-    public function isExpired($token)
+    public static function isExpired($token)
     {
-        $payload = $this->getPayload($token);
+        $payload = JWT::getPayload($token);
 
         $now = new DateTime();
 
@@ -114,7 +114,7 @@ class JWT
      * @param string $token Token to check
      * @return bool Verified or not
      */
-    public function isValid($token)
+    public static function isValid($token)
     {
         return preg_match(
             '/^[a-zA-Z0-9\-\_\=]+\.[a-zA-Z0-9\-\_\=]+\.[a-zA-Z0-9\-\_\=]+$/',

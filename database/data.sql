@@ -4,6 +4,11 @@ CREATE TABLE IF NOT EXISTS users (
     username VARCHAR(50) NOT NULL,
     email VARCHAR(100) NOT NULL,
     password VARCHAR(100) NOT NULL,
+    is_admin BOOLEAN DEFAULT FALSE,
+    bio TEXT,
+    profile_picture TEXT,
+    location VARCHAR(100),
+    job VARCHAR(100),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 

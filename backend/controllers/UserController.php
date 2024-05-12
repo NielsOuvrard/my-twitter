@@ -86,4 +86,67 @@ class UserController {
             serverErrorResponse('User creation failed');
         }
     }
+
+    public static function updateUser() { // take and update the good data
+        $conn = connectDB();
+        // Get the request data
+        $data = $_POST;
+
+        // Extract user ID from the request URI
+        $uriSegments = explode('/', rtrim($_SERVER['REQUEST_URI'], '/'));
+        $userId = end($uriSegments);
+        
+        if (!is_numeric($userId)) {
+            errorResponse('Invalid user ID');
+            return;
+        }
+
+        // Check if the user exists
+        $stmt = $conn->prepare("SELECT id FROM users WHERE id = ?");
+        $stmt->execute([$userId]);
+        $user = $stmt->fetch();
+
+        if (!$user) {
+            notFoundResponse();
+            return;
+        }
+
+        // Update the user
+        $stmt = $conn->prepare("UPDATE users where id = ? SET username = ?, email = ?");
+        if ($stmt->execute([$data['username'], $data['email'], $userId])) {
+            createdResponse('User updated successfully');
+        } else {
+            serverErrorResponse('User update failed');
+        }
+    }
+
+    public static function deleteUser() {
+        $conn = connectDB();
+        // Extract user ID from the request URI
+        $uriSegments = explode('/', rtrim($_SERVER['REQUEST_URI'], '/'));
+        $userId = end($uriSegments);
+        
+        if (!is_numeric($userId)) {
+            errorResponse('Invalid user ID');
+            return;
+        }
+
+        // Check if the user exists
+        $stmt = $conn->prepare("SELECT id FROM users WHERE id = ?");
+        $stmt->execute([$userId]);
+        $user = $stmt->fetch();
+
+        if (!$user) {
+            notFoundResponse();
+            return;
+        }
+
+        // Delete the user
+        $stmt = $conn->prepare("DELETE FROM users WHERE id = ?");
+        if ($stmt->execute([$userId])) {
+            createdResponse('User deleted successfully');
+        } else {
+            serverErrorResponse('User deletion failed');
+        }
+    }
 }

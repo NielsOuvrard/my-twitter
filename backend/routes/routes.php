@@ -162,9 +162,6 @@ $routes = [
 // Get the current request URI
 $requestUri = $_SERVER['QUERY_STRING'];
 
-$is_authenticated = false;
-$is_admin = false;
-
 // echo json_encode(['requestUri' => $requestUri]);
 // echo json_encode(['array_keys of routes' => array_keys($routes)]);
 
