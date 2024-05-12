@@ -16,13 +16,13 @@ class AuthController {
     }
 
     public static function login() {
-        $data = $_POST;
+        $data = [];
 
-        http_response_code(404);
-
-        // Send JSON-encoded error response
-        echo json_encode(array('POST' => $_POST));
-        die();
+        if ($_SERVER["CONTENT_TYPE"] === "application/json") {
+            $data = json_decode(file_get_contents('php://input'), true);
+        } else {
+            $data = $_POST;
+        }
 
         // Check if the request body is empty
         if (empty($data)) {
@@ -63,15 +63,19 @@ class AuthController {
         $payload = $user;
         $secret = getenv('JWT_SECRET_KEY');
 
-        $jwt = new JWT();
-        $token = $jwt->generate($header, $payload, $secret);
+        $token = JWT::generate($header, $payload, $secret);
 
         // Send the token in the response
         jsonResponse(['token' => $token]);
     }
 
     public static function register() {
-        $data = $_POST;
+        $data = [];
+        if ($_SERVER["CONTENT_TYPE"] === "application/json") {
+            $data = json_decode(file_get_contents('php://input'), true);
+        } else {
+            $data = $_POST;
+        }
 
         // Check if the request body is empty
         if (empty($data)) {
@@ -124,10 +128,9 @@ class AuthController {
         $token = $_SERVER['HTTP_AUTHORIZATION'];
 
         // Verify the token
-        $jwt = new JWT();
         $secret = getenv('JWT_SECRET_KEY');
 
-        if (!$jwt->check($token, $secret)) {
+        if (!JWT::check($token, $secret)) {
             errorResponse('Invalid token', 401);
             return;
         }
