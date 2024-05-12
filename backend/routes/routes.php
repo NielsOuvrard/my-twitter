@@ -164,11 +164,10 @@ $requestUri = $_SERVER['REQUEST_URI'];
 
 // Remove query string from the URI
 if (($pos = strpos($requestUri, '?')) !== false) {
-    $requestUri = substr($requestUri, 0, $pos);
-}
-
-if (strpos($requestUri, '/api/') === 0) {
-    $requestUri = preg_replace('#^/api/#', '/', $requestUri);
+    $requestUri = substr($requestUri, $pos + 1);
+} else {
+    http_response_code(404);
+    echo json_encode(['error' => 'Route Not Found']);
 }
 
 $is_authenticated = false;
