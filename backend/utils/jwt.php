@@ -9,7 +9,7 @@ class JWT
      * @param int $validity Durée de validité (en secondes)
      * @return string Token
      */
-    public function generate(array $header, array $payload, string $secret, $validity = null): string
+    public function generate(array $header, array $payload, string $secret, $validity = null)
     {
         if ($validity === null) {
             $validity = 86400;
