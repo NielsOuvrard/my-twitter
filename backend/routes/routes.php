@@ -167,6 +167,10 @@ if (($pos = strpos($requestUri, '?')) !== false) {
     $requestUri = substr($requestUri, 0, $pos);
 }
 
+if (strpos($requestUri, '/api/') === 0) {
+    $requestUri = preg_replace('#^/api/#', '/', $requestUri);
+}
+
 $is_authenticated = false;
 $is_admin = false;
 

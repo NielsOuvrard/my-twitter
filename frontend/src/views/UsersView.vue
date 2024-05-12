@@ -15,7 +15,7 @@ const exploreUser = (user: UserType) => {
 onMounted(async () => {
   try {
     const response = await axios.get(
-      'http://ouvrard.niels.free.fr/api/index.php?data=users',
+      'http://ouvrard.niels.free.fr/api/index.php/users',
     );
     users.value = response.data as UserType[];
     is_loading.value = false;
