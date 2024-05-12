@@ -36,6 +36,7 @@ jobs:
         run: |
           mkdir -p ./frontend/dist/backend
           cp -r ./index.php ./frontend/dist
+          cp -r ./.htaccess ./frontend/dist
           cp -r ./backend/. ./frontend/dist/backend
 
       - name: Set up FTP deployment
