@@ -18,6 +18,12 @@ class AuthController {
     public static function login() {
         $data = $_POST;
 
+        http_response_code(404);
+
+        // Send JSON-encoded error response
+        echo json_encode(array('POST' => $_POST));
+        die();
+
         // Check if the request body is empty
         if (empty($data)) {
             errorResponse('Request body empty');

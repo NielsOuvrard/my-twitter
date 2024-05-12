@@ -11,7 +11,7 @@ function is_valid_route($route, $requestUri)
     $routeSegments = explode('/', rtrim($route, '/'));
 
     for ($i = 0; $i < count($routeSegments); $i++) {
-        if ($routeSegments[$i] === '{id}') {
+        if ($routeSegments[$i] === '{id}' && is_numeric($uriSegments[$i])) {
             continue;
         }
         if ($routeSegments[$i] !== $uriSegments[$i]) {
@@ -141,12 +141,12 @@ $routes = [
     // Admin routes requiring admin privileges
     'admin' => [
         [
-            'uri' => '/messages/{id}-{id}',
+            'uri' => '/messages/{id}/{id}',
             'method' => 'GET',
             'controller' => 'MessageController::',
         ],
         [
-            'uri' => '/relationship/{id}-{id}',
+            'uri' => '/relationship/{id}/{id}',
             'method' => 'GET',
             'controller' => 'RelationshipController::',
         ],
