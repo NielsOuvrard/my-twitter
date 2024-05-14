@@ -16,7 +16,13 @@ class AuthController {
     }
 
     public static function login() {
-        $data = $_POST;
+        $data = [];
+
+        if ($_SERVER["CONTENT_TYPE"] === "application/json") {
+            $data = json_decode(file_get_contents('php://input'), true);
+        } else {
+            $data = $_POST;
+        }
 
         // Check if the request body is empty
         if (empty($data)) {
@@ -64,7 +70,12 @@ class AuthController {
     }
 
     public static function register() {
-        $data = $_POST;
+        $data = [];
+        if ($_SERVER["CONTENT_TYPE"] === "application/json") {
+            $data = json_decode(file_get_contents('php://input'), true);
+        } else {
+            $data = $_POST;
+        }
 
         // Check if the request body is empty
         if (empty($data)) {
