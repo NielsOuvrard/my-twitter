@@ -2,7 +2,9 @@
 
 header('Access-Control-Allow-Origin: *');
 header('Content-Type: application/json');
-header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');
+header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
+header('Access-Control-Allow-Headers: *');
+header('Referrer-Policy: strict-origin-when-cross-origin');
 
 const DS = DIRECTORY_SEPARATOR;
 

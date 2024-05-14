@@ -5,6 +5,8 @@ import UserView from '../views/UserView.vue';
 import UsersView from '../views/UsersView.vue';
 import MessageView from '../views/MessageView.vue';
 import MessagesView from '../views/MessagesView.vue';
+import LoginView from '../views/LoginView.vue';
+import RegisterView from '../views/RegisterView.vue';
 import NotFoundView from '../views/NotFoundView.vue';
 
 const routes: Array<RouteRecordRaw> = [
@@ -36,6 +38,16 @@ const routes: Array<RouteRecordRaw> = [
     path: '/messages',
     name: 'messages',
     component: MessagesView,
+  },
+  {
+    path: '/login',
+    name: 'login',
+    component: LoginView,
+  },
+  {
+    path: '/register',
+    name: 'register',
+    component: RegisterView,
   },
   {
     path: '/message/:id',

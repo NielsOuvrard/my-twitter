@@ -73,18 +73,12 @@ Complet website hosted on a free server (for free).
 
 - [ ] Add JWT token
 - [ ] Add a login / register / logout page
-- [ ] Add a profile page
+- [ ] Add a profile page with is-admin bio profile picture location job ...
 - [ ] Add a chat page
-
-### Database
-
-- [ ] Add sql : is-admin bio profile picture location job ...
 
 ### Backend
 
-- [ ] Add JWT token
 - [ ] Add controllers for Message, Relationship
-- [ ] Fix server error
 
 ## Tools
 
