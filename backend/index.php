@@ -10,12 +10,12 @@ const DS = DIRECTORY_SEPARATOR;
 
 $base_path = realpath(dirname(__FILE__)) . DS . 'backend' . DS;
 
-require_once('backend/utils/jwt.php');
+require_once($base_path . '/utils/jwt.php');
 
 $is_admin = false;
 $is_authenticated = false;
 
-if ($_SERVER['HTTP_AUTHORIZATION']) {
+if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
     $token = $_SERVER['HTTP_AUTHORIZATION'];
 
     if (JWT::isValid($token) && !JWT::isExpired($token) && JWT::check($token, getenv('JWT_SECRET_KEY'))) {
@@ -25,4 +25,4 @@ if ($_SERVER['HTTP_AUTHORIZATION']) {
     }
 }
 
-require_once('backend/routes/routes.php');
+require_once($base_path . '/routes/routes.php');

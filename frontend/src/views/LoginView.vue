@@ -1,34 +1,23 @@
 <script setup lang="ts">
-import axios from 'axios';
-import router from '@/router';
+// import router from '@/router';
 import { ref } from 'vue';
+import { useStore } from 'vuex';
 
-const username = ref('');
+const email = ref('');
 const password = ref('');
 const error = ref('');
-const jwt = ref('');
+
+const store = useStore();
 
 const login = async () => {
-  console.log('login');
   try {
-    const response = await axios.post(
-      'http://ouvrard.niels.free.fr/index.php?/login',
-      {
-        email: username.value,
-        password: password.value,
-      },
-    );
-    console.log(response);
-    if (response.data.success) {
-      // jwt.value = response.data.jwt;
-      console.log(response.data);
-      router.push('/');
-    } else {
-      error.value = 'Invalid username or password';
-    }
-  } catch (err) {
-    console.error(err);
-    error.value = 'An error occurred';
+    await store.dispatch('login', {
+      email: email.value,
+      password: password.value,
+    });
+    // router.push('/');
+  } catch (e: any) {
+    error.value = e.response.data.message;
   }
 };
 </script>
@@ -38,8 +27,8 @@ const login = async () => {
     <h1>Login</h1>
     <div v-if="error">{{ error }}</div>
     <div>
-      <label for="username">Username:</label>
-      <input id="username" v-model="username" type="text" />
+      <label for="email">Email:</label>
+      <input id="email" v-model="email" type="text" />
     </div>
     <div>
       <label for="password">Password:</label>

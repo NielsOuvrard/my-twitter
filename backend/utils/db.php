@@ -14,10 +14,12 @@ function connectDB() {
     try {
         $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password, $opt);
     } catch(PDOException $e) {
-        die("Connection failed: " . $e->getMessage());
+        errorResponse("Connection failed catch: " . $servername . " " . $e->getMessage(), 500);
+        die();
     }
     if (!$conn) {
-        die("Connection failed: " . mysqli_connect_error());
+        errorResponse("Connection failed: uncatch $servername . $username . $password",500);
+        die();
     }
     
     return $conn;
