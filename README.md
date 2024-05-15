@@ -69,6 +69,10 @@ Complet website hosted on a free server (for free).
 
 ## Features to add
 
+### CI/CD
+
+- [ ] Add docker environments for frontend and backend
+
 ### Frontend
 
 - [ ] Add JWT token

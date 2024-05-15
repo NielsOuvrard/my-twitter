@@ -34,7 +34,7 @@ expected_list_users = """
 
 class TestBackend():
     def __init__(self):
-        self.url = "http://localhost:8000"
+        self.url = "http://localhost:8000?"
 
     def show_diff(self, expected, actual):
         print("Expected:")
