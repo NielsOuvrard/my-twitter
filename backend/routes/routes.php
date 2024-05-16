@@ -160,7 +160,7 @@ $routes = [
 
 
 // Get the current request URI
-$requestUri = $_SERVER['QUERY_STRING'];
+$requestUri = $_SERVER['REQUEST_URI'];
 
 // echo json_encode(['requestUri' => $requestUri]);
 // echo json_encode(['array_keys of routes' => array_keys($routes)]);

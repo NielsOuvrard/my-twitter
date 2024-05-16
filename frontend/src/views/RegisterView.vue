@@ -14,13 +14,10 @@ const register = async () => {
     return;
   }
   try {
-    const response = await axios.post(
-      'http://ouvrard.niels.free.fr/index.php?/register',
-      {
-        username: username.value,
-        password: password.value,
-      },
-    );
+    const response = await axios.post('http://ouvrard.niels.free.fr/register', {
+      username: username.value,
+      password: password.value,
+    });
     if (response.data.success) {
       router.push('/login');
     } else {

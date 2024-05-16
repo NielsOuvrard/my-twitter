@@ -18,7 +18,7 @@ onMounted(async () => {
   const userId = route.params.id;
   try {
     const response = await axios.get(
-      `http://ouvrard.niels.free.fr/index.php?/user/${userId}`,
+      `http://ouvrard.niels.free.fr/user/${userId}`,
     );
     user.value = response.data as UserType;
     is_loading.value = false;

@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  deploy:
+  deploy-frontend:
     runs-on: ubuntu-latest
 
     steps:
@@ -23,27 +23,35 @@ jobs:
           cd frontend
           npm ci
           npm run build
-
-      - name: Add credentials to .htaccess file
-        run: |
-          cd backend
-          echo 'SetEnv DB_USERNAME ${{ secrets.FTP_USERNAME }}' >> .htaccess
-          echo 'SetEnv DB_PASSWORD ${{ secrets.SQL_PASSWORD }}' >> .htaccess
-          echo 'SetEnv DB_SERVERNAME ${{ secrets.FTP_SERVER }}' >> .htaccess
-          echo 'SetEnv JWT_SECRET_KEY ${{ secrets.JWT_SECRET_KEY }}' >> .htaccess
-
-      - name: Copy backend to dist folder
-        run: |
-          mkdir -p ./frontend/dist/backend
-          cp -r ./backend/. ./frontend/dist/backend
-          mv ./frontend/dist/backend/.htaccess ./frontend/dist
-          mv ./frontend/dist/backend/index.php ./frontend/dist
-          find ./frontend/dist/backend/ -type f ! -name "*.php" -delete
+          mv .htaccess ./dist/
 
       - name: Set up FTP deployment
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
-          server: ${{ secrets.FTP_SERVER }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
+          server: ${{ vars.SERVER_DOMAIN }}
+          username: ${{ vars.SERVER_USERNAME_2 }}
+          password: ${{ secrets.FTP_PASSWORD_2 }}
           local-dir: "./frontend/dist/"
+
+  deploy-backend:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Add credentials to .htaccess file
+        run: |
+          cd backend
+          echo 'SetEnv DB_SERVERNAME ${{ vars.SERVER_DOMAIN }}' >> .htaccess
+          echo 'SetEnv DB_USERNAME ${{ vars.SERVER_USERNAME_1 }}' >> .htaccess
+          echo 'SetEnv DB_PASSWORD ${{ secrets.DB_PASSWORD_1 }}' >> .htaccess
+          echo 'SetEnv JWT_SECRET_KEY ${{ secrets.JWT_SECRET_KEY }}' >> .htaccess
+
+      - name: Set up FTP deployment
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ vars.SERVER_DOMAIN }}
+          username: ${{ vars.SERVER_USERNAME_1 }}
+          password: ${{ secrets.FTP_PASSWORD_1 }}
+          local-dir: "./backend/"

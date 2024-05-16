@@ -8,7 +8,7 @@ header('Referrer-Policy: strict-origin-when-cross-origin');
 
 const DS = DIRECTORY_SEPARATOR;
 
-$base_path = realpath(dirname(__FILE__)) . DS . 'backend' . DS;
+$base_path = realpath(dirname(__FILE__)) . DS;
 
 require_once($base_path . '/utils/jwt.php');
 

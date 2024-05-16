@@ -13,14 +13,10 @@ export default createStore({
   },
   actions: {
     async login({ commit }, credentials) {
-      const response = await axios.post(
-        'http://ouvrard.niels.free.fr/index.php?/login',
-        //'http://localhost:8000/index.php?/login',
-        {
-          email: credentials.email,
-          password: credentials.password,
-        },
-      );
+      const response = await axios.post('http://ouvrard.niels.free.fr/login', {
+        email: credentials.email,
+        password: credentials.password,
+      });
 
       if (!response.data.token) {
         throw new Error('Invalid credentials');
