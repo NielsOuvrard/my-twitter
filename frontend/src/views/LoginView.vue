@@ -16,7 +16,7 @@ const login = async () => {
       password: password.value,
     });
     // router.push('/');
-  } catch (e: any) {
+  } catch (e) {
     error.value = e.response.data.message;
   }
 };

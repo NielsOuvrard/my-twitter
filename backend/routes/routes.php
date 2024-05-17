@@ -160,10 +160,9 @@ $routes = [
 
 
 // Get the current request URI
-$requestUri = $_SERVER['REQUEST_URI'];
+// because we do /index.php?/users
+$requestUri = $_SERVER['QUERY_STRING'];
 
-// echo json_encode(['requestUri' => $requestUri]);
-// echo json_encode(['array_keys of routes' => array_keys($routes)]);
 
 // Route the request
 if (route_exists($routes, $requestUri)) {
