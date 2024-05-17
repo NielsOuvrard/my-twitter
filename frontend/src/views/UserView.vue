@@ -1,9 +1,11 @@
 <script setup lang="ts">
-import axios from 'axios';
 import UserCard from '@/components/UserCard.vue';
 import { onMounted, ref } from 'vue';
 import { UserType } from '@/types/types';
 import { useRoute } from 'vue-router';
+import { useStore } from 'vuex';
+
+// todo do no execute a request again, check if the user is already in the store
 
 const route = useRoute();
 const user = ref<UserType>({
@@ -13,14 +15,12 @@ const user = ref<UserType>({
   created_at: '',
 });
 const is_loading = ref(true);
+const store = useStore();
 
 onMounted(async () => {
   const userId = route.params.id;
   try {
-    const response = await axios.get(
-      `http://ouvrard.niels.free.fr/user/${userId}`,
-    );
-    user.value = response.data as UserType;
+    user.value = await store.dispatch('fetchUser', userId);
     is_loading.value = false;
   } catch (error) {
     console.error(error);

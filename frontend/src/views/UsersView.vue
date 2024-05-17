@@ -1,12 +1,14 @@
 <script setup lang="ts">
-import axios from 'axios';
 import router from '@/router';
 import UserCard from '@/components/UserCard.vue';
 import { onMounted, ref } from 'vue';
 import { UserType } from '@/types/types';
+import { useStore } from 'vuex';
 
 const users = ref<UserType[]>([]);
 const is_loading = ref(true);
+
+const store = useStore();
 
 const exploreUser = (user: UserType) => {
   router.push(`/user/${user.id}`);
@@ -14,8 +16,7 @@ const exploreUser = (user: UserType) => {
 
 onMounted(async () => {
   try {
-    const response = await axios.get('http://ouvrard.niels.free.fr/users');
-    users.value = response.data as UserType[];
+    users.value = await store.dispatch('fetchUsers', {});
     is_loading.value = false;
   } catch (error) {
     console.error(error);

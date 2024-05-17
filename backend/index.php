@@ -6,6 +6,13 @@ header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
 header('Access-Control-Allow-Headers: *');
 header('Referrer-Policy: strict-origin-when-cross-origin');
 
+
+// Handle preflight OPTIONS request
+if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
+    http_response_code(200);
+    exit(0);
+}
+
 const DS = DIRECTORY_SEPARATOR;
 
 $base_path = realpath(dirname(__FILE__)) . DS;
@@ -24,5 +31,8 @@ if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
         $is_admin = $payload['admin'];
     }
 }
+
+// Log the request for debugging
+file_put_contents('request.log', date('Y-m-d H:i:s') . ' - ' . $_SERVER['REQUEST_METHOD'] . ' - ' . file_get_contents('php://input') . "\n", FILE_APPEND);
 
 require_once($base_path . '/routes/routes.php');
