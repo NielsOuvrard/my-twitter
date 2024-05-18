@@ -1,19 +1,14 @@
 <script setup lang="ts">
 import UserCard from '@/components/UserCard.vue';
 import { onMounted, ref } from 'vue';
-import { UserType } from '@/types/types';
+import { FullUserType } from '@/types/types';
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 
 // todo do no execute a request again, check if the user is already in the store
 
 const route = useRoute();
-const user = ref<UserType>({
-  id: 0,
-  username: '',
-  email: '',
-  created_at: '',
-});
+const user = ref<FullUserType | null>(null);
 const is_loading = ref(true);
 const store = useStore();
 
@@ -31,7 +26,7 @@ onMounted(async () => {
 <template>
   <div class="user">
     <h1>User</h1>
-    <div v-if="is_loading">Loading...</div>
+    <div v-if="!user">Loading...</div>
     <div v-else>
       <UserCard :user="user" />
     </div>

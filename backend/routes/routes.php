@@ -1,14 +1,37 @@
 <?php
 
-require_once($base_path . 'controllers' . DS . 'UserController.php');
-require_once($base_path . 'controllers' . DS . 'AuthController.php');
-require_once($base_path . 'utils' . DS . 'db.php');
+require_once ($base_path . 'controllers' . DS . 'AuthController.php');
+require_once ($base_path . 'controllers' . DS . 'MessagesController.php');
+require_once ($base_path . 'controllers' . DS . 'PublicationsController.php');
+require_once ($base_path . 'controllers' . DS . 'RelationshipsController.php');
+require_once ($base_path . 'controllers' . DS . 'UserController.php');
+
+$controllers = [
+    'AuthController',
+    'MessagesController',
+    'PublicationsController',
+    'RelationshipsController',
+    'UserController',
+];
+
+// grab routes from all controllers
+$all_routes = [];
+foreach ($controllers as $controller) {
+    if (class_exists($controller)) {
+        $controller = new $controller;
+        $routes = $controller->getRoutes();
+        foreach ($routes as $route) {
+            $route['controller'] = get_class($controller) . '::' . $route['controller'];
+            $all_routes[] = $route;
+        }
+    }
+}
 
 
-function is_valid_route($route, $requestUri)
+function is_valid_path_method($route, $requestUri)
 {
     $uriSegments = explode('/', rtrim($requestUri, '/'));
-    $routeSegments = explode('/', rtrim($route, '/'));
+    $routeSegments = explode('/', rtrim($route['uri'], '/'));
 
     for ($i = 0; $i < count($routeSegments); $i++) {
         if ($routeSegments[$i] === '{id}' && is_numeric($uriSegments[$i])) {
@@ -19,167 +42,40 @@ function is_valid_route($route, $requestUri)
         }
     }
 
+    if (count($uriSegments) !== count($routeSegments)) {
+        return false;
+    }
+
+    if ($route['method'] !== $_SERVER['REQUEST_METHOD']) {
+        return false;
+    }
+
     return true;
 }
 
-function route_exists($routes_type, $requestUri)
+function route_exists($routes, $requestUri)
 {
-    foreach ($routes_type as $routes) { // this will parcour 'public', 'auth', 'admin'
-        foreach ($routes as $route) {
-            if (is_valid_route($route['uri'], $requestUri)) {
-                return true;
-            }
-        }
-    }
-    return false;
-}
-
-function check_route($routes, $requestUri)
-{
-    $method = $_SERVER['REQUEST_METHOD'];
-
     foreach ($routes as $route) {
-        if ($route['method'] === $method && is_valid_route($route['uri'], $requestUri)) {
-            $handler = $route['controller'];
-            call_user_func($handler);
-            return true;
+        if (is_valid_path_method($route, $requestUri)) {
+            return $route;
         }
     }
-    return false;
+    return null;
 }
 
-$routes = [
-    // Public routes accessible without authentication
-    'public' => [
-        // Auth route
-        [
-            'uri' => '/login',
-            'method' => 'POST',
-            'controller' => 'AuthController::login',
-        ],
-        [
-            'uri' => '/register',
-            'method' => 'POST',
-            'controller' => 'AuthController::register',
-        ],
-        // Users routes
-        [
-            'uri' => '/users',
-            'method' => 'GET',
-            'controller' => 'UserController::getAllUsers',
-        ],
-        [
-            'uri' => '/user/{id}',
-            'method' => 'GET',
-            'controller' => 'UserController::getUserById',
-        ],
-    ],
-
-    // Authenticated routes requiring JWT token
-    'auth' => [
-        // Auth route
-        [
-            'uri' => '/logout',
-            'method' => 'POST',
-            'controller' => 'AuthController::logout',
-        ],
-        // Users routes
-        [
-            'uri' => '/user/{id}',
-            'method' => 'PUT',
-            'controller' => 'UserController::updateUser',
-        ],
-        [
-            'uri' => '/user/{id}',
-            'method' => 'DELETE',
-            'controller' => 'UserController::deleteUser',
-        ],
-        // Relationships routes
-        [
-            'uri' => '/relationships',
-            'method' => 'GET',
-            'controller' => 'RelationshipController::getRelationships',
-        ],
-        [
-            'uri' => '/relationship/{id}',
-            'method' => 'POST',
-            'controller' => 'RelationshipController::createRelationship',
-        ],
-        [
-            'uri' => '/relationship/{id}',
-            'method' => 'PUT',
-            'controller' => 'RelationshipController::updateRelationship',
-        ],
-        [
-            'uri' => '/relationship/{id}',
-            'method' => 'DELETE',
-            'controller' => 'RelationshipController::deleteRelationship',
-        ],
-        // Messages routes
-        [
-            'uri' => '/message/{id}',
-            'method' => 'POST',
-            'controller' => 'MessageController::createMessage',
-        ],
-        [
-            'uri' => '/message/{id}',
-            'method' => 'PUT',
-            'controller' => 'MessageController::updateMessage',
-        ],
-        [
-            'uri' => '/message/{id}',
-            'method' => 'DELETE',
-            'controller' => 'MessageController::deleteMessage',
-        ],
-        [
-            'uri' => '/messages/{id}',
-            'method' => 'GET',
-            'controller' => 'MessageController::',
-        ],
-    ],
-
-    // Admin routes requiring admin privileges
-    'admin' => [
-        [
-            'uri' => '/messages/{id}/{id}',
-            'method' => 'GET',
-            'controller' => 'MessageController::',
-        ],
-        [
-            'uri' => '/relationship/{id}/{id}',
-            'method' => 'GET',
-            'controller' => 'RelationshipController::',
-        ],
-        [
-            'uri' => '/relationships',
-            'method' => 'GET',
-            'controller' => 'RelationshipController::',
-        ],
-    ],
-];
-
-
-// Get the current request URI
-// because we do /index.php?/users
 $requestUri = $_SERVER['QUERY_STRING'];
 
-
 // Route the request
-if (route_exists($routes, $requestUri)) {
-    $method = $_SERVER['REQUEST_METHOD'];
-
-    if (check_route($routes['public'], $requestUri)) {
-        return;
+if ($route = route_exists($all_routes, $requestUri)) {
+    if ($route['auth'] === true && !$is_authenticated) {
+        http_response_code(401);
+        echo json_encode(['error' => 'You should be authenticated to access this route']);
+    } else if ($route['admin'] === true && !$is_admin) {
+        http_response_code(403);
+        echo json_encode(['error' => 'You do not have permission to access this route']);
+    } else {
+        call_user_func($route['controller']);
     }
-    if ($is_authenticated && check_route($routes['auth'], $requestUri)) {
-        return;
-    }
-    if ($is_admin && check_route($routes['admin'], $requestUri)) {
-        return;
-    }
-
-    http_response_code(405);
-    echo json_encode(['error' => 'You do not have permission to access this route']);
 } else {
     // Route not found
     http_response_code(404);

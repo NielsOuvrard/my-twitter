@@ -1,15 +1,35 @@
-export interface UserType {
+export interface BasicUserType {
   id: number;
   username: string;
   email: string;
-  created_at: string;
-  relationship?: number[];
+  avatar?: string;
 }
 
-export interface Message {
+export interface FullUserType {
+  id: number;
+  username: string;
+  email: string;
+  password: string;
+  bio?: string;
+  avatar?: string;
+  location?: string;
+  job?: string;
+  created_at: string;
+}
+
+export interface MessageType {
   id: number;
   sender_id: number;
   recipient_id: number;
-  message: string;
-  sent_at: string;
+  content: string;
+  created_at: string;
+}
+
+export interface PublicationType {
+  id: number;
+  user: BasicUserType;
+  content: string;
+  likes?: number; // todo
+  comments?: number; // todo
+  created_at: string;
 }

@@ -1,22 +1,22 @@
 <script setup lang="ts">
 import router from '@/router';
-import UserCard from '@/components/UserCard.vue';
+import PublicationCard from '@/components/PublicationCard.vue';
 import { onMounted, ref } from 'vue';
-import { BasicUserType } from '@/types/types';
+import { PublicationType } from '@/types/types';
 import { useStore } from 'vuex';
 
-const users = ref<BasicUserType[]>([]);
+const publications = ref<PublicationType[]>([]);
 const is_loading = ref(true);
 
 const store = useStore();
 
-const exploreUser = (user: BasicUserType) => {
-  router.push(`/user/${user.id}`);
+const explorePublication = (publication: PublicationType) => {
+  router.push(`/publication/${publication.id}`);
 };
 
 onMounted(async () => {
   try {
-    users.value = await store.dispatch('fetchUsers', {});
+    publications.value = await store.dispatch('fetchPublications', {});
     is_loading.value = false;
   } catch (error) {
     console.error(error);
@@ -25,15 +25,15 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="users">
-    <h1>Users</h1>
+  <div class="publications">
+    <h1>Publications</h1>
     <div v-if="is_loading">Loading...</div>
     <div v-else>
-      <UserCard
-        v-for="user in users"
-        :key="user.id"
-        :user="user"
-        @click="exploreUser(user)"
+      <PublicationCard
+        v-for="publication in publications"
+        :key="publication.id"
+        :publication="publication"
+        @click="explorePublication(publication)"
       />
     </div>
   </div>

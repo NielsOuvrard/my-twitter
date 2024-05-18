@@ -1,12 +1,12 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { BasicUserType } from '@/types/types';
+import { PublicationType } from '@/types/types';
 
 export default defineComponent({
-  name: 'UserCard',
+  name: 'PublicationCard',
   props: {
-    user: {
-      type: Object as () => BasicUserType,
+    publication: {
+      type: Object as () => PublicationType,
       required: true,
     },
   },
@@ -14,9 +14,9 @@ export default defineComponent({
 </script>
 
 <template>
-  <div class="user">
-    <h1>{{ user.username }}</h1>
-    <p>{{ user.email }}</p>
+  <div class="publication">
+    <h1>{{ publication.user }}</h1>
+    <p>{{ publication.content }}</p>
   </div>
 </template>
 

@@ -2,6 +2,7 @@ import axios from 'axios';
 import { createStore } from 'vuex';
 
 const domain = 'http://ouvrard.niels.free.fr/index.php?';
+// const domain = 'http://localhost:8000/index.php?';
 
 export default createStore({
   state: {
@@ -14,6 +15,8 @@ export default createStore({
     },
   },
   actions: {
+    // * //////////////////////////////////////// Authentification
+
     async login({ commit }, credentials) {
       const response = await axios.post(`${domain}/login`, {
         email: credentials.email,
@@ -37,8 +40,21 @@ export default createStore({
       }
     },
 
+    async logout({ state }) {
+      const response = await axios.get(`${domain}/logout`, {
+        headers: {
+          Authorization: `Bearer ${state.jwt}`,
+        },
+      });
+      if (!response.data.id) {
+        throw new Error('Bad token');
+      }
+    },
+
+    // * //////////////////////////////////////// Users
+
     async fetchUser(_, user_id) {
-      const response = await axios.get(`${domain}/user/${user_id}`, {});
+      const response = await axios.get(`${domain}/users/${user_id}`, {});
       if (!response.data) {
         throw new Error('No user');
       }
@@ -53,12 +69,59 @@ export default createStore({
       return response.data;
     },
 
-    async logout({ state }) {
-      const response = await axios.get(`${domain}/logout`, {
+    // * //////////////////////////////////////// Publications
+
+    async fetchLastPublications() {
+      const response = await axios.get(`${domain}/publications`, {});
+      if (!response.data) {
+        throw new Error('No publications');
+      }
+      return response.data;
+    },
+
+    async sendPublication({ state }, message) {
+      const response = await axios.post(
+        `${domain}/publications`,
+        {
+          message: message.message,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${state.jwt}`,
+          },
+        },
+      );
+      if (!response.data.id) {
+        throw new Error('Bad token');
+      }
+    },
+
+    // * //////////////////////////////////////// Messages
+
+    async fetchMessages({ state }) {
+      const response = await axios.get(`${domain}/messages`, {
         headers: {
           Authorization: `Bearer ${state.jwt}`,
         },
       });
+      if (!response.data) {
+        throw new Error('No messages');
+      }
+      return response.data;
+    },
+
+    async sendPrivateMessage({ state }, message) {
+      const response = await axios.post(
+        `${domain}/messages/${message.recipient_id}`,
+        {
+          message: message.message,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${state.jwt}`,
+          },
+        },
+      );
       if (!response.data.id) {
         throw new Error('Bad token');
       }
