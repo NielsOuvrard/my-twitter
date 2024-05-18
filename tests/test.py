@@ -16,25 +16,15 @@ expected_list_users = """
     },
     {
         "id": 3,
-        "username": "user3",
-        "email": "user3@example.com"
-    },
-    {
-        "id": 4,
-        "username": "user4",
-        "email": "user4@example.com"
-    },
-    {
-        "id": 5,
-        "username": "user5",
-        "email": "user5@example.com"
+        "username": "admin",
+        "email": "admin@example.com"
     }
 ]
 """
 
 class TestBackend():
     def __init__(self):
-        self.url = "http://localhost:8000?"
+        self.url = "http://localhost:8000/index.php?"
 
     def show_diff(self, expected, actual):
         print("Expected:")

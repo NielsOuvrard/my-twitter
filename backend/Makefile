@@ -5,6 +5,7 @@
 setupdb: cleandb createdb createexamples
 
 createdb:
+	mysql -h127.0.0.1 -uroot -ppassword -e 'DROP DATABASE IF EXISTS db;'
 	mysql -h127.0.0.1 -uroot -ppassword -e 'CREATE DATABASE IF NOT EXISTS db;'
 	mysql -h127.0.0.1 -uroot -ppassword db < ../database/create.sql
 
