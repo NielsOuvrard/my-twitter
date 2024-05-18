@@ -1,45 +1,57 @@
 # Website Free
 
 Complet website hosted on a free server (for free).
+It's a reproduction of Twitter with Vue.js and PHP.
 
-## [Website](http://ouvrard.niels.free.fr/)
+## [Website](http://niels.ouvrard.free.fr/)
 
 ## Frontend
 
 ### Architecture
 
 ```sh
-./frontend
+frontend/
 ├── babel.config.js
 ├── package-lock.json
 ├── package.json
-├── tsconfig.json
-├── vue.config.js
 │
 ├── public
 │   ├── favicon.ico
-│   ├── img
-│   │   └── icons
-│   │       └── ...
 │   ├── index.html
 │   └── robots.txt
 │
 └── src
     ├── App.vue
+    ├── main.ts
+    │
     ├── assets
     │   └── logo.png
+    │
     ├── components
-    │   └── ...
-    ├── main.ts
-    ├── note.txt
-    ├── registerServiceWorker.ts
+    │   ├── PublicationCard.vue
+    │   └── UserCard.vue
+    │
     ├── router
     │   └── index.ts
-    ├── shims-vue.d.ts
+    │
     ├── store
     │   └── index.ts
+    │
+    ├── types
+    │   └── types.ts
+    │
     └── views
-        └── ...
+        ├── AboutView.vue
+        ├── HomeView.vue
+        ├── LoginView.vue
+        ├── MessageView.vue
+        ├── MessagesView.vue
+        ├── NotFoundView.vue
+        ├── ProfileView.vue
+        ├── PublicationsView.vue
+        ├── RegisterView.vue
+        ├── UserView.vue
+        └── UsersView.vue
 ```
 
 ## Backend
@@ -47,42 +59,46 @@ Complet website hosted on a free server (for free).
 ### Architecture
 
 ```sh
-./backend
+backend/
 ├── Makefile
 ├── index.php
+├── request.log
 ├── run_local.sh
-│
-├── controllers
-│   ├── AuthController.php
-│   ├── UserController.php
-│   ├── MessageController.php
-│   └── RelationshipController.php
 │
 ├── routes
 │   └── routes.php
 │
-└── utils
-    ├── db.php
-    ├── jwt.php
-    └── response.php
+├── utils
+│   ├── db.php
+│   ├── jwt.php
+│   ├── response.php
+│   └── tools.php
+│
+└── controllers
+    ├── AuthController.php
+    ├── MessagesController.php
+    ├── PublicationsController.php
+    ├── RelationshipsController.php
+    └── UserController.php
 ```
 
 ## Features to add
 
 ### CI/CD
 
-- [ ] Add docker environments for frontend and backend
+-   [ ] Add docker environments for frontend and backend
 
 ### Frontend
 
-- [ ] Add JWT token
-- [ ] Add a login / register / logout page
-- [ ] Add a profile page with is-admin bio profile picture location job ...
-- [ ] Add a chat page
+-   [ ] Add JWT token
+-   [ ] Add a login / register / logout page
+-   [ ] Add a profile page with is-admin bio profile picture location job ...
+-   [ ] Add a chat page
 
 ### Backend
 
-- [ ] Add controllers for Message, Relationship
+-   [ ] Add controllers for Message, Relationship
+-   [ ] Better way to grab /{id} in routes
 
 ## Tools
 
