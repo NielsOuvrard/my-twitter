@@ -2,7 +2,7 @@
 import router from '@/router';
 import UserCard from '@/components/UserCard.vue';
 import { onMounted, ref } from 'vue';
-import { BasicUserType } from '@/types/types';
+import { BasicUserType } from '@/types';
 import { useStore } from 'vuex';
 
 const users = ref<BasicUserType[]>([]);

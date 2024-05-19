@@ -1,21 +1,33 @@
 <script setup lang="ts">
 import { useStore } from 'vuex';
+import { onMounted, ref, watch } from 'vue';
 
 const store = useStore();
-const isAuthenticated = !!store.state.jwt;
+const isAuthenticated = ref<boolean>(false);
+
+onMounted(async () => {
+  isAuthenticated.value = await store.getters.isAuthenticated;
+});
+
+watch(
+  () => store.getters.isAuthenticated,
+  (newValue) => {
+    isAuthenticated.value = newValue;
+  },
+);
 </script>
 
 <template>
   <nav>
     <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link> |
-    <router-link to="/users">Users</router-link> |
-    <!-- <router-link to="/messages">Messages</router-link> | -->
-    <router-link to="/login">login</router-link> |
-    <router-link to="/register">register</router-link> |
+    <router-link to="/search">Search</router-link> |
     <template v-if="isAuthenticated">
-      <router-link to="/profile">profile</router-link> |
-      <router-link to="/logout">logout</router-link>
+      <router-link to="/profile">Profile</router-link> |
+      <router-link to="/logout">Logout</router-link>
+    </template>
+    <template v-else>
+      <router-link to="/login">Login</router-link> |
+      <router-link to="/register">Register</router-link>
     </template>
   </nav>
   <!-- put a link to profile -->

@@ -1,3 +1,5 @@
+// * //////////////////////////////////////// User
+
 export interface BasicUserType {
   id: number;
   username: string;
@@ -9,7 +11,6 @@ export interface FullUserType {
   id: number;
   username: string;
   email: string;
-  password: string;
   bio?: string;
   avatar?: string;
   location?: string;
@@ -17,13 +18,27 @@ export interface FullUserType {
   created_at: string;
 }
 
-export interface MessageType {
+// * //////////////////////////////////////// Message
+
+export interface MessageWithUserType {
   id: number;
-  sender_id: number;
-  recipient_id: number;
+  user: BasicUserType;
   content: string;
   created_at: string;
 }
+
+export interface MinimalMessageType {
+  id: number;
+  content: string;
+  created_at: string;
+}
+
+export interface MessagesFromType {
+  user: BasicUserType;
+  messages: MinimalMessageType[];
+}
+
+// * //////////////////////////////////////// Publication
 
 export interface PublicationType {
   id: number;

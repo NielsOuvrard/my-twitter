@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { defineProps } from 'vue';
-import { PublicationType } from '@/types/types';
-// import router from '@/router';
+import { PublicationType } from '@/types';
+import router from '@/router';
 
 const props = defineProps<{
   publication: PublicationType | undefined;
@@ -9,37 +9,15 @@ const props = defineProps<{
 </script>
 
 <template>
-  <div
-    v-if="!props.publication"
-    animation="wave"
-    :delay="0"
-    class="skeleton-group"
-  >
-    <div class="card">
-      <div class="card-content">
-        <div
-          variant="circle"
-          width="1rem"
-          height="48px"
-          class="avatar-skeleton"
-        />
-        <div variant="text" :lines="2" class="text-skeleton" />
+  <div v-if="!props.publication" animation="wave" :delay="0">
+    <div>
+      <div>
+        <div variant="circle" width="1rem" height="48px" />
+        <div variant="text" :lines="2" />
       </div>
-      <div class="card-actions">
-        <div
-          variant="rounded"
-          inline
-          width="82px"
-          height="32px"
-          class="follow-skeleton"
-        />
-        <div
-          variant="rounded"
-          inline
-          width="64px"
-          height="32px"
-          class="comment-skeleton"
-        />
+      <div>
+        <div variant="rounded" inline width="82px" height="32px" />
+        <div variant="rounded" inline width="64px" height="32px" />
       </div>
     </div>
   </div>
@@ -47,14 +25,17 @@ const props = defineProps<{
     v-else-if="!!props.publication && !!props.publication.user"
     class="publication-card"
   >
-    <div class="row">
+    <div
+      class="row"
+      @click="router.push(`/users/${props.publication.user.id}`)"
+    >
       <div cols="2" class="avatar-col">
         <div
           v-if="props.publication.user.avatar"
           :src="props.publication.user.avatar"
           class="avatar"
         />
-        <div
+        <img
           v-else
           :src="`https://i.pravatar.cc/150?img=${props.publication.user.id}`"
           class="avatar"
@@ -73,8 +54,8 @@ const props = defineProps<{
         </div>
         <div class="button-row">
           <div class="button-col">
-            <div color="primary" class="follow-button">Follow</div>
-            <div color="secondary" class="comment-button">Comment</div>
+            <button color="primary" class="follow-button">Follow</button>
+            <button color="secondary" class="comment-button">Comment</button>
           </div>
         </div>
       </div>
@@ -82,142 +63,71 @@ const props = defineProps<{
   </div>
 </template>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
-.card {
-  margin-bottom: 16px;
-}
-
-.card-content {
-  display: flex;
-  align-items: center;
-}
-
-.avatar-skeleton {
-  margin-right: 16px;
-}
-
-.text-skeleton {
-  flex: 1;
-}
-
-.card-actions {
-  display: flex;
-  justify-content: space-between;
-}
-
-.follow-skeleton {
-  margin-right: 8px;
-}
-
-.comment-skeleton {
-  margin-left: 8px;
-}
-
 .publication-card {
-  margin-bottom: 16px;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  border: 1px solid #ccc;
+  margin-bottom: 20px;
 }
 
 .row {
   display: flex;
+  flex-wrap: wrap;
 }
 
 .avatar-col {
-  display: flex;
-  justify-content: top;
-  align-items: center;
+  flex: 1 0 50px;
+}
+
+.content-col,
+.username-col,
+.button-col {
+  padding: 10px;
+  flex: 1 0 100%;
 }
 
 .avatar {
-  width: 48px;
-  height: 48px;
-}
-
-.content-col {
-  display: flex;
-  flex-direction: column;
-}
-
-.username-row {
-  margin-bottom: 8px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
 }
 
 .username {
-  margin: 0;
-}
-
-.content-row {
-  margin-bottom: 8px;
+  font-weight: bold;
+  margin-bottom: 10px;
 }
 
 .content {
-  margin: 0;
+  margin-bottom: 20px;
 }
 
-.button-row {
-  margin-bottom: 8px;
-}
-
-.button-col {
-  display: flex;
-  gap: 8px;
+.follow-button,
+.comment-button {
+  padding: 10px 20px;
+  margin-right: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  flex: 1 0 auto;
 }
 
 .follow-button {
-  flex: 1;
+  background-color: #007bff;
+  color: white;
 }
 
 .comment-button {
-  flex: 1;
-}
-
-@media (max-width: 600px) {
-  .avatar-col {
-    display: none;
-  }
-
-  .content-col {
-    flex: 1;
-  }
+  background-color: #6c757d;
+  color: white;
 }
 
 @media (min-width: 600px) {
-  .avatar-col {
-    flex: 1;
-  }
-
-  .content-col {
-    flex: 3;
-  }
-}
-
-@media (min-width: 900px) {
-  .avatar-col {
-    flex: 1;
-  }
-
-  .content-col {
-    flex: 4;
-  }
-}
-
-@media (min-width: 1200px) {
-  .avatar-col {
-    flex: 1;
-  }
-
-  .content-col {
-    flex: 5;
-  }
-}
-
-@media (min-width: 1500px) {
-  .avatar-col {
-    flex: 1;
-  }
-
-  .content-col {
-    flex: 6;
+  .avatar-col,
+  .content-col,
+  .username-col,
+  .button-col {
+    flex: 1 0 auto;
   }
 }
 </style>

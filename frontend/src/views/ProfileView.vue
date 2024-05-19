@@ -1,16 +1,17 @@
 <script setup lang="ts">
-import { UserType } from '@/types/types';
+import { FullUserType } from '@/types';
 import { onMounted, ref } from 'vue';
 import { useStore } from 'vuex';
+import router from '@/router';
 
 const store = useStore();
-const profile = ref<UserType | null>(null);
+const profile = ref<FullUserType | null>(null);
 
 onMounted(async () => {
-  try {
-    profile.value = await store.dispatch('fetchProfile');
-  } catch (error) {
-    console.error(error);
+  if (!store.getters.isAuthenticated) {
+    router.push('/login');
+  } else {
+    profile.value = await store.getters.getProfile;
   }
 });
 </script>
@@ -19,7 +20,7 @@ onMounted(async () => {
   <div class="profile-view">
     <h1>Profile View</h1>
     <div class="profile-info">
-      <div v-if="profile === null">Loading...</div>
+      <div v-if="!profile">Loading...</div>
       <div v-else>
         <h1>{{ profile.username }}</h1>
         <p>{{ profile.email }}</p>

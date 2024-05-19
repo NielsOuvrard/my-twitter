@@ -2,7 +2,7 @@
 import router from '@/router';
 import PublicationCard from '@/components/PublicationCard.vue';
 import { onMounted, ref } from 'vue';
-import { PublicationType } from '@/types/types';
+import { PublicationType } from '@/types';
 import { useStore } from 'vuex';
 
 const publications = ref<PublicationType[]>([]);

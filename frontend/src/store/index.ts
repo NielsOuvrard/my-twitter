@@ -1,18 +1,34 @@
 import axios from 'axios';
 import { createStore } from 'vuex';
-import { PublicationType } from '@/types/types';
+import { PublicationType, FullUserType } from '@/types';
 
 const domain = 'http://ouvrard.niels.free.fr/index.php?';
 // const domain = 'http://localhost:8000/index.php?';
 
-export default createStore({
+interface State {
+  jwt: string | null;
+  profile: FullUserType | null;
+}
+
+export default createStore<State>({
   state: {
     jwt: null,
+    profile: null,
   },
-  getters: {},
+  getters: {
+    isAuthenticated(state) {
+      return state.jwt !== null;
+    },
+    getProfile(state) {
+      return state.profile;
+    },
+  },
   mutations: {
     setJwt(state, jwt) {
       state.jwt = jwt;
+    },
+    setProfile(state, profile) {
+      state.profile = profile;
     },
   },
   actions: {
@@ -26,8 +42,13 @@ export default createStore({
       if (!response.data.token) {
         throw new Error('Invalid credentials');
       }
+      const profile = await response.data.user;
+      commit('setProfile', profile);
       const jwt = await response.data.token;
       commit('setJwt', jwt);
+
+      // this works
+      // console.log('profile', this.state.profile);
     },
 
     async register(_, credentials) {
@@ -41,15 +62,9 @@ export default createStore({
       }
     },
 
-    async logout({ state }) {
-      const response = await axios.get(`${domain}/logout`, {
-        headers: {
-          Authorization: `Bearer ${state.jwt}`,
-        },
-      });
-      if (!response.data.id) {
-        throw new Error('Bad token');
-      }
+    logout({ state }) {
+      state.jwt = null;
+      state.profile = null;
     },
 
     // * //////////////////////////////////////// Users

@@ -1,13 +1,17 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
-import HomeView from '../views/HomeView.vue';
-import AboutView from '../views/AboutView.vue';
-import UserView from '../views/UserView.vue';
-import UsersView from '../views/UsersView.vue';
-import MessageView from '../views/MessageView.vue';
-import MessagesView from '../views/MessagesView.vue';
-import LoginView from '../views/LoginView.vue';
-import RegisterView from '../views/RegisterView.vue';
-import NotFoundView from '../views/NotFoundView.vue';
+import HomeView from '@/views/HomeView.vue';
+import UserView from '@/views/UserView.vue';
+
+import SearchView from '@/views/SearchView.vue';
+import ProfileView from '@/views/ProfileView.vue';
+
+import MessageView from '@/views/MessageView.vue'; // more 'conversational' view of messages
+import MessagesView from '@/views/MessagesView.vue'; // list of users sent you a message, click on a user to see the messages
+
+import RegisterView from '@/views/RegisterView.vue';
+import LoginView from '@/views/LoginView.vue';
+import LogoutView from '@/views/LogoutView.vue';
+import NotFoundView from '@/views/NotFoundView.vue';
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -16,28 +20,13 @@ const routes: Array<RouteRecordRaw> = [
     component: HomeView,
   },
   {
-    path: '/about',
-    name: 'about',
-    component: AboutView,
-  },
-  {
-    path: '/users',
-    name: 'users',
-    component: UsersView,
-  },
-  {
-    path: '/user/:id',
+    path: '/users/:id',
     children: [
       {
         path: '',
         component: UserView,
       },
     ],
-  },
-  {
-    path: '/messages',
-    name: 'messages',
-    component: MessagesView,
   },
   {
     path: '/login',
@@ -50,7 +39,27 @@ const routes: Array<RouteRecordRaw> = [
     component: RegisterView,
   },
   {
-    path: '/message/:id',
+    path: '/logout',
+    name: 'logout',
+    component: LogoutView,
+  },
+  {
+    path: '/search',
+    name: 'search',
+    component: SearchView,
+  },
+  {
+    path: '/profile',
+    name: 'profile',
+    component: ProfileView,
+  },
+  {
+    path: '/messages',
+    name: 'messages',
+    component: MessagesView,
+  },
+  {
+    path: '/messages/:id',
     children: [
       {
         path: '',
@@ -63,7 +72,6 @@ const routes: Array<RouteRecordRaw> = [
     component: NotFoundView,
   },
 ];
-// put a link to profile in the user view
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),

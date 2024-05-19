@@ -1,5 +1,5 @@
 <script setup lang="ts">
-// import router from '@/router';
+import router from '@/router';
 import { ref } from 'vue';
 import { useStore } from 'vuex';
 
@@ -15,7 +15,7 @@ const login = async () => {
       email: email.value,
       password: password.value,
     });
-    // router.push('/');
+    router.push('/profile');
   } catch (e) {
     error.value = e.response.data.message;
   }

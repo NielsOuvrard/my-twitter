@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
 import { useStore } from 'vuex';
-import { PublicationType } from '@/types/types';
+import { PublicationType } from '@/types';
 import PublicationCard from '@/components/PublicationCard.vue';
 
 const store = useStore();

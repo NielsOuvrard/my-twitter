@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { defineProps } from 'vue';
-import { BasicUserType } from '@/types/types';
+import { BasicUserType } from '@/types';
 
 const props = defineProps<{
   user: BasicUserType;
@@ -14,7 +14,6 @@ const props = defineProps<{
   </div>
 </template>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
 h3 {
   margin: 40px 0 0;

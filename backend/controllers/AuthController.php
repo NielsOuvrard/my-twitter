@@ -24,13 +24,6 @@ class AuthController
                 'controller' => 'register',
                 'admin' => false,
                 'auth' => false,
-            ],
-            [
-                'uri' => '/logout',
-                'method' => 'POST',
-                'controller' => 'logout',
-                'admin' => false,
-                'auth' => true,
             ]
         ];
     }
@@ -57,7 +50,7 @@ class AuthController
         $password = $data['password'];
 
         // Prepare the SQL query to fetch the user with the given email
-        $stmt = $conn->prepare("SELECT id, username, email, password FROM users WHERE email = ?");
+        $stmt = $conn->prepare("SELECT id, username, email, created_at, password FROM users WHERE email = ?");
         $stmt->execute([$email]);
         $user = $stmt->fetch();
 
@@ -81,7 +74,7 @@ class AuthController
         $token = JWT::generate($header, $user, $secret);
 
         // Send the token in the response
-        jsonResponse(['token' => $token]);
+        jsonResponse(['token' => $token, 'user' => $user]);
     }
 
     public static function register()
@@ -126,28 +119,5 @@ class AuthController
         } else {
             serverErrorResponse('User creation failed');
         }
-    }
-
-    public static function logout()
-    {
-        // Check if the Authorization header is present
-        if (!isset($_SERVER['HTTP_AUTHORIZATION'])) { // not sure
-            errorResponse('Authorization header is missing', 401);
-            return;
-        }
-
-        // Extract the token from the Authorization header
-        $token = $_SERVER['HTTP_AUTHORIZATION'];
-
-        // Verify the token
-        $secret = getenv('JWT_SECRET_KEY');
-
-        if (!JWT::check($token, $secret)) {
-            errorResponse('Invalid token', 401);
-            return;
-        }
-
-        // Send a success response
-        jsonResponse(['message' => 'Logged out successfully']);
     }
 }

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import UserCard from '@/components/UserCard.vue';
 import { onMounted, ref } from 'vue';
-import { FullUserType } from '@/types/types';
+import { FullUserType } from '@/types';
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 
