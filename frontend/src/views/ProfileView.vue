@@ -17,7 +17,7 @@ const publish = async () => {
   }
 
   try {
-    await store.dispatch('publish', textToPublish.value);
+    await store.dispatch('sendPublication', textToPublish.value);
     // todo do not execute a request again
     // todo only from the user
     recentPosts.value = await store.dispatch('fetchLastPublications');

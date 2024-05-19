@@ -6,6 +6,9 @@ import router from '@/router';
 const props = defineProps<{
   publication: PublicationType | undefined;
 }>();
+
+// todo buttons
+// todo click on publication to go to publication page
 </script>
 
 <template>
@@ -24,41 +27,27 @@ const props = defineProps<{
   <div
     v-else-if="!!props.publication && !!props.publication.user"
     class="publication-card"
+    @click="router.push(`/users/${props.publication.user.id}`)"
   >
-    <div
-      class="row"
-      @click="router.push(`/users/${props.publication.user.id}`)"
-    >
-      <div cols="2" class="avatar-col">
-        <div
+    <div class="user-info">
+      <div class="avatar-wrapper">
+        <img
+          class="avatar"
           v-if="props.publication.user.avatar"
           :src="props.publication.user.avatar"
-          class="avatar"
         />
         <img
+          class="avatar"
           v-else
           :src="`https://i.pravatar.cc/150?img=${props.publication.user.id}`"
-          class="avatar"
         />
+        <h4 class="username">{{ props.publication.user.username }}</h4>
       </div>
-      <div cols="10" class="content-col">
-        <div class="username-row">
-          <div class="username-col">
-            <h4 class="username">{{ props.publication.user.username }}</h4>
-          </div>
-        </div>
-        <div class="content-row">
-          <div class="content-col">
-            <p class="content">{{ props.publication.content }}</p>
-          </div>
-        </div>
-        <div class="button-row">
-          <div class="button-col">
-            <button color="primary" class="follow-button">Follow</button>
-            <button color="secondary" class="comment-button">Comment</button>
-          </div>
-        </div>
-      </div>
+      <p class="content">{{ props.publication.content }}</p>
+    </div>
+    <div class="actions">
+      <button class="action-button like-button">Like</button>
+      <button class="action-button comment-button">Comment</button>
     </div>
   </div>
 </template>
@@ -68,66 +57,78 @@ const props = defineProps<{
   display: flex;
   flex-direction: column;
   padding: 20px;
-  border: 1px solid #ccc;
-  margin-bottom: 20px;
-}
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  max-width: 600px;
+  width: 100%;
 
-.row {
-  display: flex;
-  flex-wrap: wrap;
-}
+  .user-info {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 20px;
 
-.avatar-col {
-  flex: 1 0 50px;
-}
+    .avatar-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-right: 20px;
 
-.content-col,
-.username-col,
-.button-col {
-  padding: 10px;
-  flex: 1 0 100%;
-}
+      .avatar {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        object-fit: cover;
+      }
 
-.avatar {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-}
+      .username {
+        font-size: 18px;
+        font-weight: bold;
+      }
+    }
 
-.username {
-  font-weight: bold;
-  margin-bottom: 10px;
-}
+    .content {
+      flex-grow: 1;
+      font-size: 16px;
+    }
+  }
 
-.content {
-  margin-bottom: 20px;
-}
+  .actions {
+    display: flex;
+    justify-content: space-between;
 
-.follow-button,
-.comment-button {
-  padding: 10px 20px;
-  margin-right: 10px;
-  border-radius: 5px;
-  cursor: pointer;
-  flex: 1 0 auto;
-}
+    .action-button {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 4px;
+      background-color: #007bff;
+      color: #fff;
+      cursor: pointer;
 
-.follow-button {
-  background-color: #007bff;
-  color: white;
-}
+      &:hover {
+        background-color: #0056b3;
+      }
+    }
+  }
 
-.comment-button {
-  background-color: #6c757d;
-  color: white;
-}
+  @media (max-width: 768px) {
+    padding: 10px;
 
-@media (min-width: 600px) {
-  .avatar-col,
-  .content-col,
-  .username-col,
-  .button-col {
-    flex: 1 0 auto;
+    .user-info {
+      flex-direction: column;
+      align-items: flex-start;
+
+      .avatar-wrapper {
+        flex-direction: row;
+        justify-content: flex-start;
+        margin-right: 0;
+        margin-bottom: 10px;
+
+        .avatar {
+          margin-right: 10px;
+        }
+      }
+    }
   }
 }
 </style>

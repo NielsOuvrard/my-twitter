@@ -102,11 +102,11 @@ export default createStore<State>({
       }
     },
 
-    async sendPublication({ state }, message) {
+    async sendPublication({ state }, content) {
       const response = await axios.post(
         `${domain}/publications`,
         {
-          message: message.message,
+          content: content,
         },
         {
           headers: {
