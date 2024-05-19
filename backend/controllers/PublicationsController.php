@@ -41,10 +41,44 @@ class PublicationsController
     {
         $conn = connectDB();
 
+        $request = "
+            SELECT 
+                publications.id, 
+                publications.content, 
+                publications.created_at, 
+                users.id AS user_id, 
+                users.username, 
+                users.email, 
+                users.avatar
+            FROM 
+                publications
+            JOIN 
+                users ON publications.user_id = users.id
+            ORDER BY 
+                publications.created_at DESC
+            LIMIT 10;
+            ";
+
         // get last 10 publications
-        $stmt = $conn->prepare("SELECT * FROM publications ORDER BY id DESC LIMIT 10");
-        $stmt->execute();
-        $publications = $stmt->fetchAll();
+        $stmt = $conn->query($request);
+
+        $publications = [];
+        while ($row = $stmt->fetch()) {
+            $publications[] = [
+                'id' => $row['id'],
+                'content' => $row['content'],
+                'created_at' => $row['created_at'],
+                'user' => [
+                    'id' => $row['user_id'],
+                    'username' => $row['username'],
+                    'email' => $row['email'],
+                    'avatar' => $row['avatar'],
+                ],
+            ];
+        }
+
+
+        // $publications = $stmt->fetchAll();
         jsonResponseOrError($publications, 'No publications found');
     }
 

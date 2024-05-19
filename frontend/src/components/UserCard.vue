@@ -1,22 +1,16 @@
-<script lang="ts">
-import { defineComponent } from 'vue';
+<script setup lang="ts">
+import { defineProps } from 'vue';
 import { BasicUserType } from '@/types/types';
 
-export default defineComponent({
-  name: 'UserCard',
-  props: {
-    user: {
-      type: Object as () => BasicUserType,
-      required: true,
-    },
-  },
-});
+const props = defineProps<{
+  user: BasicUserType;
+}>();
 </script>
 
 <template>
   <div class="user">
-    <h1>{{ user.username }}</h1>
-    <p>{{ user.email }}</p>
+    <h1>{{ props.user.username }}</h1>
+    <p>{{ props.user.email }}</p>
   </div>
 </template>
 

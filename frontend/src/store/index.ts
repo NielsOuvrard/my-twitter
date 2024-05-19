@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { createStore } from 'vuex';
+import { PublicationType } from '@/types/types';
 
 const domain = 'http://ouvrard.niels.free.fr/index.php?';
 // const domain = 'http://localhost:8000/index.php?';
@@ -72,11 +73,16 @@ export default createStore({
     // * //////////////////////////////////////// Publications
 
     async fetchLastPublications() {
-      const response = await axios.get(`${domain}/publications`, {});
-      if (!response.data) {
-        throw new Error('No publications');
+      try {
+        const response = await axios.get(`${domain}/publications`, {});
+        if (!response.data) {
+          throw new Error('No publications');
+        }
+        const publications: PublicationType[] = response.data;
+        return publications;
+      } catch (e) {
+        throw new Error('Bad publications');
       }
-      return response.data;
     },
 
     async sendPublication({ state }, message) {
