@@ -71,7 +71,7 @@ class AuthController
         unset($user['password']);
         $secret = getenv('JWT_SECRET_KEY');
 
-        $token = JWT::generate($header, $user, $secret);
+        $token = JWT::generate($header, ['user' => $user], $secret);
 
         // Send the token in the response
         jsonResponse(['token' => $token, 'user' => $user]);

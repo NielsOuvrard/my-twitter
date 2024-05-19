@@ -23,6 +23,7 @@ watch(
     <router-link to="/search">Search</router-link> |
     <template v-if="isAuthenticated">
       <router-link to="/profile">Profile</router-link> |
+      <router-link to="/messages">Messages</router-link> |
       <router-link to="/logout">Logout</router-link>
     </template>
     <template v-else>

@@ -38,9 +38,11 @@ if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
     } else if ($is_expierd) {
         http_response_code(401);
         echo json_encode(['error' => 'Your jwt token is expired']);
+        exit(0);
     } else if (!$is_valid) {
         http_response_code(401);
         echo json_encode(['error' => 'Your jwt token is invalid']);
+        exit(0);
     }
 }
 

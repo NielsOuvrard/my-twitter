@@ -1,16 +1,34 @@
 <script setup lang="ts">
 import { defineProps } from 'vue';
 import { MessageWithUserType } from '@/types';
+import router from '@/router';
 
 const props = defineProps<{
   message: MessageWithUserType;
 }>();
+
+const goToUser = () => {
+  router.push('/messages/' + props.message.user.id);
+};
 </script>
 
 <template>
-  <div class="last-message">
+  <div class="last-message" @click="goToUser">
     <div class="user">
-      <img class="avatar" :src="props.message.user.avatar" alt="User Avatar" />
+      <template v-if="props.message.user.avatar">
+        <img
+          class="avatar"
+          :src="props.message.user.avatar"
+          alt="User Avatar"
+        />
+      </template>
+      <template v-else>
+        <img
+          class="avatar"
+          :src="`https://i.pravatar.cc/150?img=${props.message.user.id}`"
+          alt="User Avatar"
+        />
+      </template>
       <div class="username">{{ props.message.user.username }}</div>
     </div>
     <div class="message">

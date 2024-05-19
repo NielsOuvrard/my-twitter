@@ -33,7 +33,7 @@ function is_valid_path_method($route, $requestUri)
     $uriSegments = explode('/', rtrim($requestUri, '/'));
     $routeSegments = explode('/', rtrim($route['uri'], '/'));
 
-    for ($i = 0; $i < count($routeSegments); $i++) {
+    for ($i = 0; $i < count($routeSegments) && $i < count($uriSegments); $i++) {
         if ($routeSegments[$i] === '{id}' && is_numeric($uriSegments[$i])) {
             continue;
         }

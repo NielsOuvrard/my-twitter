@@ -29,6 +29,7 @@ export interface MessageWithUserType {
 
 export interface MinimalMessageType {
   id: number;
+  sender_id: number;
   content: string;
   created_at: string;
 }

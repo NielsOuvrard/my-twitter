@@ -1,6 +1,12 @@
 import axios from 'axios';
 import { createStore } from 'vuex';
-import { PublicationType, FullUserType } from '@/types';
+import {
+  PublicationType,
+  FullUserType,
+  MessageWithUserType,
+  MinimalMessageType,
+  BasicUserType,
+} from '@/types';
 
 const domain = 'http://ouvrard.niels.free.fr/index.php?';
 // const domain = 'http://localhost:8000/index.php?';
@@ -43,12 +49,9 @@ export default createStore<State>({
         throw new Error('Invalid credentials');
       }
       const profile = await response.data.user;
-      commit('setProfile', profile);
       const jwt = await response.data.token;
+      commit('setProfile', profile);
       commit('setJwt', jwt);
-
-      // this works
-      // console.log('profile', this.state.profile);
     },
 
     async register(_, credentials) {
@@ -74,7 +77,7 @@ export default createStore<State>({
       if (!response.data) {
         throw new Error('No user');
       }
-      return response.data;
+      return response.data as BasicUserType;
     },
 
     async fetchUsers() {
@@ -82,7 +85,7 @@ export default createStore<State>({
       if (!response.data) {
         throw new Error('No users');
       }
-      return response.data;
+      return response.data as BasicUserType[];
     },
 
     // * //////////////////////////////////////// Publications
@@ -93,8 +96,7 @@ export default createStore<State>({
         if (!response.data) {
           throw new Error('No publications');
         }
-        const publications: PublicationType[] = response.data;
-        return publications;
+        return response.data as PublicationType[];
       } catch (e) {
         throw new Error('Bad publications');
       }
@@ -119,7 +121,7 @@ export default createStore<State>({
 
     // * //////////////////////////////////////// Messages
 
-    async fetchMessages({ state }) {
+    async fetchLastUsersMessages({ state }) {
       const response = await axios.get(`${domain}/messages`, {
         headers: {
           Authorization: `Bearer ${state.jwt}`,
@@ -128,14 +130,26 @@ export default createStore<State>({
       if (!response.data) {
         throw new Error('No messages');
       }
-      return response.data;
+      return response.data as MessageWithUserType[];
     },
 
-    async sendPrivateMessage({ state }, message) {
+    async fetchMessages({ state }, user_id) {
+      const response = await axios.get(`${domain}/messages/${user_id}`, {
+        headers: {
+          Authorization: `Bearer ${state.jwt}`,
+        },
+      });
+      if (!response.data) {
+        throw new Error('No messages');
+      }
+      return response.data as MinimalMessageType[];
+    },
+
+    async sendMessage({ state }, prop) {
       const response = await axios.post(
-        `${domain}/messages/${message.recipient_id}`,
+        `${domain}/messages/${prop.id}`,
         {
-          message: message.message,
+          message: prop.content,
         },
         {
           headers: {
