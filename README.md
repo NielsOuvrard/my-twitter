@@ -1,9 +1,14 @@
-# Website Free
+# My Twitter
 
-Complet website hosted on a free server (for free).
-It's a reproduction of Twitter with Vue.js and PHP.
+### This is a reproduction of Twitter with Vue.js and PHP.
 
-## [Website](http://niels.ouvrard.free.fr/)
+Vue 3 for the frontend.
+PHP 5.6.34 for the backend (It's the version on the free server).
+MySQL for the database.
+
+Complet website hosted on a Free server (for free ofc).
+
+[Link to my-twitter website](http://niels.ouvrard.free.fr/)
 
 ## Frontend
 
@@ -28,8 +33,7 @@ frontend/
     │   └── logo.png
     │
     ├── components
-    │   ├── PublicationCard.vue
-    │   └── UserCard.vue
+    │   └── [...].vue
     │
     ├── router
     │   └── index.ts
@@ -41,17 +45,7 @@ frontend/
     │   └── types.ts
     │
     └── views
-        ├── AboutView.vue
-        ├── HomeView.vue
-        ├── LoginView.vue
-        ├── MessageView.vue
-        ├── MessagesView.vue
-        ├── NotFoundView.vue
-        ├── ProfileView.vue
-        ├── PublicationsView.vue
-        ├── RegisterView.vue
-        ├── UserView.vue
-        └── UsersView.vue
+        └── [...].vue
 ```
 
 ## Backend
@@ -75,30 +69,33 @@ backend/
 │   └── tools.php
 │
 └── controllers
-    ├── AuthController.php
-    ├── MessagesController.php
-    ├── PublicationsController.php
-    ├── RelationshipsController.php
-    └── UserController.php
+    └── [...].php
 ```
 
 ## Features to add
 
 ### CI/CD
 
--   [ ] Add docker environments for frontend and backend
+- [ ] Add docker environments for frontend and backend
 
 ### Frontend
 
--   [ ] Add JWT token
--   [ ] Add a login / register / logout page
--   [ ] Add a profile page with is-admin bio profile picture location job ...
--   [ ] Add a chat page
+- [ ] Can comment / like publications
+- [ ] Limit of characters shown in preview publications / messages
+- [ ] Link search bar with backend
+- [ ] Recent posts of users on their profile
+- [ ] Individual page for publication
+- [ ] Push to user / publication where you click
+- [ ] Take in store data to avoid multiple fetch
+
+- [ ] Refont like / comment esthetic
+- [ ] Refont login / register esthetic
 
 ### Backend
 
--   [ ] Add controllers for Message, Relationship
--   [ ] Better way to grab /{id} in routes
+- [ ] Fix 'getLastUsersMessages' route to avoid double users
+- [ ] Better way to grab /{id} in routes
+- [ ] Search bar route
 
 ## Tools
 
