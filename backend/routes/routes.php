@@ -5,6 +5,7 @@ require_once ($base_path . 'controllers' . DS . 'MessagesController.php');
 require_once ($base_path . 'controllers' . DS . 'PublicationsController.php');
 require_once ($base_path . 'controllers' . DS . 'RelationshipsController.php');
 require_once ($base_path . 'controllers' . DS . 'UserController.php');
+require_once ($base_path . 'controllers' . DS . 'SearchController.php');
 
 $controllers = [
     'AuthController',
@@ -12,6 +13,7 @@ $controllers = [
     'PublicationsController',
     'RelationshipsController',
     'UserController',
+    'SearchController',
 ];
 
 // grab routes from all controllers
@@ -35,6 +37,9 @@ function is_valid_path_method($route, $requestUri)
 
     for ($i = 0; $i < count($routeSegments) && $i < count($uriSegments); $i++) {
         if ($routeSegments[$i] === '{id}' && is_numeric($uriSegments[$i])) {
+            continue;
+        }
+        if ($routeSegments[$i] === '{word}') {
             continue;
         }
         if ($routeSegments[$i] !== $uriSegments[$i]) {
