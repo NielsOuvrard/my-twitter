@@ -4,7 +4,7 @@
 
 Vue 3 for the frontend.
 PHP 5.6.34 for the backend (It's the version on the free server).
-MySQL for the database.
+MySQL 5.0.83 for the database.
 
 Complet website hosted on a Free server (for free ofc).
 
@@ -101,7 +101,7 @@ backend/
 
 [![Made with Vue 3](https://img.shields.io/badge/Made%20with-Vue-42b883.svg)](https://vuejs.org/)
 [![Made with PHP 5.6.34](https://img.shields.io/badge/Made%20with-PHP-777BB4.svg)](https://www.php.net/)
-[![Made with MySQL](https://img.shields.io/badge/Made%20with-MySQL-4479A1.svg)](https://www.mysql.com/)
+[![Made with MySQL 5.0.83](https://img.shields.io/badge/Made%20with-MySQL-4479A1.svg)](https://www.mysql.com/)
 
 <!-- [![Documentation](https://img.shields.io/badge/Documentation-Yes-brightgreen.svg)](https://rclovis.github.io/R-Type-Documentation/) -->
 
