@@ -28,16 +28,19 @@ class SearchController
         $uriSegments = explode('/', rtrim($_SERVER['REQUEST_URI'], '/'));
         $word = end($uriSegments);
 
+        // remove, by security, all characters that are not letters or numbers
+        $word = preg_replace('/[^a-zA-Z0-9]/', '', $word);
+
+        // remove the messages in the future to avoid private messages in the search
         $request =
-            "(SELECT id, username, email FROM users WHERE username LIKE '%?%')
+            "(SELECT id, email AS result, 'user' AS kind FROM users WHERE username LIKE '%$word%')
         UNION
-            (SELECT id, sender_id, content FROM messages WHERE content LIKE '%?%')
+            (SELECT id, content AS result, 'messages' AS kind FROM messages WHERE content LIKE '%$word%')
         UNION
-            (SELECT id, user_id, content FROM publications WHERE content LIKE '%?%');";
+            (SELECT id, content AS result, 'publications' AS kind FROM publications WHERE content LIKE '%$word%');";
 
         $stmt = $conn->prepare($request);
-
-        $stmt->execute([$word, $word, $word]);
+        $stmt->execute();
         $result = $stmt->fetchAll();
 
         jsonResponseOrError($result, 'No results found');
