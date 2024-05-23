@@ -1,0 +1,40 @@
+version: "3.8"
+
+services:
+  php:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      DB_USERNAME: root
+      DB_PASSWORD: password
+      DB_SERVERNAME: 127.0.0.1
+      JWT_SECRET_KEY: secret
+    volumes:
+      - .:/var/www/html
+    ports:
+      - "80:80"
+
+  mysql:
+    image: mysql:8.0 # officially 5.0.83
+    environment:
+      MYSQL_DATABASE: db
+      MYSQL_USER: root
+      MYSQL_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: password
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  node:
+    image: node:latest
+    working_dir: /app
+    volumes:
+      - ./frontend:/app
+    command: sh -c "npm install && npm run serve"
+    ports:
+      - "8080:8080"
+
+volumes:
+  mysql_data:
