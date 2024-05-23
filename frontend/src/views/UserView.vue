@@ -25,7 +25,6 @@ onMounted(async () => {
 
 <template>
   <div class="user">
-    <h1>User</h1>
     <div v-if="!user">Loading...</div>
     <div v-else>
       <UserCard :user="user" />

@@ -47,6 +47,6 @@ if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
 }
 
 // Log the request for debugging
-file_put_contents('request.log', date('Y-m-d H:i:s') . ' - ' . $_SERVER['REQUEST_METHOD'] . ' - ' . $_SERVER['REQUEST_URI'] . PHP_EOL, FILE_APPEND);
+file_put_contents('request.log', date('Y-m-d H:i:s') . ' - ' . $_SERVER['REQUEST_METHOD'] . ' - ' . $_SERVER['REQUEST_URI'] . $_SERVER['REMOTE_ADDR'] . PHP_EOL, FILE_APPEND);
 
 require_once ($base_path . '/routes/routes.php');
